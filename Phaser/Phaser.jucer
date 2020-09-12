@@ -7,11 +7,26 @@
               pluginCharacteristicsValue="pluginProducesMidiOut,pluginWantsMidiIn">
   <MAINGROUP id="DKEKGU" name="Phaser">
     <GROUP id="{C8DF5903-E013-87F9-A819-DDA908ED1C5E}" name="Source">
-      <GROUP id="{553F785B-1CDE-02DA-D397-84639A302117}" name="LookAndFeel">
-        <FILE id="tpOBsh" name="CustomGraphics.cpp" compile="1" resource="0"
-              file="Source/LookAndFeel/CustomGraphics.cpp"/>
-        <FILE id="QbJFdj" name="CustomGraphics.h" compile="0" resource="0"
-              file="Source/LookAndFeel/CustomGraphics.h"/>
+      <GROUP id="{82D76D4A-DDF2-BE1F-0FC4-7A6C0C29A57D}" name="Common">
+        <GROUP id="{7942EB6F-36A4-EE40-6A2A-E5F38BFD1EBA}" name="LookAndFeel">
+          <FILE id="blz1jJ" name="CustomGraphics.cpp" compile="1" resource="0"
+                file="../Common/LookAndFeel/CustomGraphics.cpp"/>
+          <FILE id="J8ggMv" name="CustomGraphics.h" compile="0" resource="0"
+                file="../Common/LookAndFeel/CustomGraphics.h"/>
+        </GROUP>
+        <GROUP id="{24C97701-AC4F-12DF-3B09-99914D34A873}" name="Resources">
+          <FILE id="fTlC0L" name="background.png" compile="0" resource="1" file="../Common/Resources/background.png"/>
+          <FILE id="aWrHFu" name="combo_box.png" compile="0" resource="1" file="../Common/Resources/combo_box.png"/>
+          <FILE id="SVQAY4" name="display_area.png" compile="0" resource="1"
+                file="../Common/Resources/display_area.png"/>
+          <FILE id="twH9g3" name="knob.png" compile="0" resource="1" file="../Common/Resources/knob.png"/>
+          <FILE id="rcu5Be" name="slider_gap.png" compile="0" resource="1" file="../Common/Resources/slider_gap.png"/>
+          <FILE id="BvafSh" name="slider_handle.png" compile="0" resource="1"
+                file="../Common/Resources/slider_handle.png"/>
+          <FILE id="vXQjsh" name="switch_knob.png" compile="0" resource="1" file="../Common/Resources/switch_knob.png"/>
+          <FILE id="DQSjPN" name="toggle_button.png" compile="0" resource="1"
+                file="../Common/Resources/toggle_button.png"/>
+        </GROUP>
       </GROUP>
       <FILE id="tBfK9L" name="PluginEditor.cpp" compile="1" resource="0"
             file="Source/PluginEditor.cpp"/>

@@ -343,6 +343,11 @@ void PhaserAudioProcessor::createStateTrees()
 	                                                                 zeroToOneDefaultValue, nullptr,
 	                                                                 nullptr));
 
+	valueTreeState.createAndAddParameter(std::make_unique<Parameter>(dryWetParamName, dryWetParamName,
+	                                                                 dryWetParamName, zeroToOneParam,
+	                                                                 zeroToOneDefaultValue, nullptr,
+	                                                                 nullptr));
+
 	valueTreeState.createAndAddParameter(std::make_unique<Parameter>(minFrequencyParamName, minFrequencyParamName,
 	                                                                 minFrequencyParamName, minFrequencyParam,
 	                                                                 minFrequencyMinValue, nullptr,

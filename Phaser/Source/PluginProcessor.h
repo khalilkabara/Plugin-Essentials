@@ -138,6 +138,7 @@ public:
 	const String useStereoParamName{"useStereo"};
 	const String depthParamName{"depth"};
 	const String feedbackParamName{"feedback"};
+	const String dryWetParamName{"dryWet"};
 	const String minFrequencyParamName{"minFrequency"};
 	const String sweepWidthParamName{"sweepWidth"};
 	const String lfoFrequencyParamName{"lfoFrequency"};

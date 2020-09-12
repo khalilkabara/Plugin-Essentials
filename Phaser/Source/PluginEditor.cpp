@@ -17,6 +17,7 @@ PhaserAudioProcessorEditor::PhaserAudioProcessorEditor(PhaserAudioProcessor& p)
 
 	defineRects();
 	defineComponents();
+	addComponents();
 }
 
 PhaserAudioProcessorEditor::~PhaserAudioProcessorEditor()
@@ -57,6 +58,8 @@ void PhaserAudioProcessorEditor::paint(Graphics& g)
 	g.drawRect(dryWetKnobLabelRect);
 
 	//--------------------><
+	g.drawFittedText("Enable Stereo", useStereoToggleLabelRect, Justification::centred, 1);
+	
 	g.drawFittedText("Num Filters", numFiltersLabelRect, Justification::centred, 1);
 
 	g.drawFittedText("LFO", lfoTitleRect, Justification::centred, 1);
@@ -72,6 +75,15 @@ void PhaserAudioProcessorEditor::paint(Graphics& g)
 
 void PhaserAudioProcessorEditor::resized()
 {
+	useStereoToggle.setBounds(useStereoToggleRect);
+	numFiltersSelector.setBounds(numFiltersSelectorRect);
+	lfoWaveSelector.setBounds(lfoWaveSelectorRect);
+	depthKnob.setBounds(depthKnobRect);
+	feedbackKnob.setBounds(feedbackKnobRect);
+	minFrequencyKnob.setBounds(minFrequencyKnobRect);
+	sweepWidthKnob.setBounds(sweepWidthKnobRect);
+	lfoFrequencyKnob.setBounds(lfoFrequencyKnobRect);
+	dryWetKnob.setBounds(dryWetKnobRect);
 }
 
 void PhaserAudioProcessorEditor::defineRects()
@@ -123,6 +135,37 @@ void PhaserAudioProcessorEditor::defineRects()
 	// 	mainArea.getWidth(),
 	// 	remainingHeight);
 
+
+	headerLeftRect = Rectangle<int> (
+		headerRect.getX(),
+		headerRect.getY(),
+		headerRect.getWidth() / 3,
+		headerRect.getHeight());
+	
+	headerDisplayRect = Rectangle<int> (
+		headerLeftRect.getX() + headerLeftRect.getWidth(),
+		headerLeftRect.getY(),
+		headerLeftRect.getWidth(),
+		headerLeftRect.getHeight());
+	
+	headerRightRect = Rectangle<int> (
+		headerDisplayRect.getX() + headerDisplayRect.getWidth(),
+		headerDisplayRect.getY(),
+		headerDisplayRect.getWidth(),
+		headerDisplayRect.getHeight());
+	
+	useStereoToggleLabelRect = Rectangle<int> (
+		headerRightRect.getX(),
+		headerRightRect.getY(),
+		headerRightRect.getWidth() / 2,
+		headerRightRect.getHeight());
+	
+	useStereoToggleRect = Rectangle<int> (
+		useStereoToggleLabelRect.getX() + useStereoToggleLabelRect.getWidth(),
+		useStereoToggleLabelRect.getY(),
+		useStereoToggleLabelRect.getWidth(),
+		useStereoToggleLabelRect.getHeight());
+	
 	// ***************************************************************************************
 
 	numFiltersLabelRect = Rectangle<int>(
@@ -248,6 +291,92 @@ void PhaserAudioProcessorEditor::defineRects()
 
 void PhaserAudioProcessorEditor::defineComponents()
 {
+	useStereoToggleSlider.setRange(0, 1, 1);
+	useStereoToggleSlider.setVisible(false);
+	useStereoToggleSlider.addListener(this);
+
+	const auto chorusIsEnabled = static_cast<int>(*processor.valueTreeState.getRawParameterValue(
+		processor.useStereoParamName)) == 1;
+	useStereoToggle.setToggleState(chorusIsEnabled, NotificationType::dontSendNotification);
+	useStereoToggle.setVisible(true);
+	useStereoToggle.addListener(this);
+
+	const auto selectedIndex = static_cast<int>(*processor.valueTreeState.getRawParameterValue(processor.numFiltersParamName));
+	numFiltersSelector.addItemList(processor.NUM_FILTERS, 1);
+	numFiltersSelector.setText(processor.NUM_FILTERS[selectedIndex]);
+	numFiltersSelector.setVisible(true);
+	numFiltersSelector.setEnabled(true);
+	numFiltersSelector.addListener(this);
+
+	const auto selectedWave = static_cast<int>(*processor.valueTreeState.getRawParameterValue(processor.lfoWaveformParamName));
+	lfoWaveSelector.addItemList(processor.LFO_WAVEFORMS, 1);
+	lfoWaveSelector.setText(processor.LFO_WAVEFORMS[selectedWave]);
+	lfoWaveSelector.setVisible(true);
+	lfoWaveSelector.setEnabled(true);
+	lfoWaveSelector.addListener(this);
+
+	depthKnob.setSliderStyle(Slider::SliderStyle::RotaryVerticalDrag);
+	depthKnob.setRange(processor.zeroToOneMinValue, processor.zeroToOneMaxValue, processor.zeroToOneStepValue);
+	depthKnob.setTextBoxStyle(Slider::NoTextBox, false, 100, 30);
+	depthKnob.setSkewFactorFromMidPoint(processor.zeroToOneMidpointValue);
+	depthKnob.setTooltip(translate("effect;"));
+	depthKnob.setVisible(true);
+	depthKnob.addListener(this);
+	
+	feedbackKnob.setSliderStyle(Slider::SliderStyle::RotaryVerticalDrag);
+	feedbackKnob.setRange(processor.zeroToOneMinValue, processor.zeroToOneMaxValue, processor.zeroToOneStepValue);
+	feedbackKnob.setTextBoxStyle(Slider::NoTextBox, false, 100, 30);
+	feedbackKnob.setSkewFactorFromMidPoint(processor.zeroToOneMidpointValue);
+	feedbackKnob.setTooltip(translate("effect;"));
+	feedbackKnob.setVisible(true);
+	feedbackKnob.addListener(this);
+
+	dryWetKnob.setSliderStyle(Slider::SliderStyle::RotaryVerticalDrag);
+	dryWetKnob.setRange(processor.zeroToOneMinValue, processor.zeroToOneMaxValue, processor.zeroToOneStepValue);
+	dryWetKnob.setTextBoxStyle(Slider::NoTextBox, false, 100, 30);
+	dryWetKnob.setSkewFactorFromMidPoint(processor.zeroToOneMidpointValue);
+	dryWetKnob.setTooltip(translate("effect;"));
+	dryWetKnob.setVisible(true);
+	dryWetKnob.addListener(this);
+
+	minFrequencyKnob.setSliderStyle(Slider::SliderStyle::RotaryVerticalDrag);
+	minFrequencyKnob.setRange(processor.minFrequencyMinValue, processor.minFrequencyMaxValue, processor.minFrequencyStepValue);
+	minFrequencyKnob.setTextBoxStyle(Slider::NoTextBox, false, 100, 30);
+	minFrequencyKnob.setSkewFactorFromMidPoint(processor.minFrequencyMidpointValue);
+	minFrequencyKnob.setTooltip(translate("effect;"));
+	minFrequencyKnob.setVisible(true);
+	minFrequencyKnob.addListener(this);
+
+	sweepWidthKnob.setSliderStyle(Slider::SliderStyle::RotaryVerticalDrag);
+	sweepWidthKnob.setRange(processor.sweepWidthMinValue, processor.sweepWidthMaxValue, processor.sweepWidthStepValue);
+	sweepWidthKnob.setTextBoxStyle(Slider::NoTextBox, false, 100, 30);
+	sweepWidthKnob.setSkewFactorFromMidPoint(processor.sweepWidthMidpointValue);
+	sweepWidthKnob.setTooltip(translate("effect;"));
+	sweepWidthKnob.setVisible(true);
+	sweepWidthKnob.addListener(this);
+
+	lfoFrequencyKnob.setSliderStyle(Slider::SliderStyle::RotaryVerticalDrag);
+	lfoFrequencyKnob.setRange(processor.lfoFrequencyMinValue, processor.lfoFrequencyMaxValue, processor.lfoFrequencyStepValue);
+	lfoFrequencyKnob.setTextBoxStyle(Slider::NoTextBox, false, 100, 30);
+	lfoFrequencyKnob.setSkewFactorFromMidPoint(processor.lfoFrequencyMidpointValue);
+	lfoFrequencyKnob.setTooltip(translate("effect;"));
+	lfoFrequencyKnob.setVisible(true);
+	lfoFrequencyKnob.addListener(this);
+
+	resized();
+}
+
+void PhaserAudioProcessorEditor::addComponents()
+{
+	addAndMakeVisible(useStereoToggle);
+	addAndMakeVisible(numFiltersSelector);
+	addAndMakeVisible(lfoWaveSelector);
+	addAndMakeVisible(depthKnob);
+	addAndMakeVisible(feedbackKnob);
+	addAndMakeVisible(minFrequencyKnob);
+	addAndMakeVisible(sweepWidthKnob);
+	addAndMakeVisible(lfoFrequencyKnob);
+	addAndMakeVisible(dryWetKnob);
 }
 
 //==============================================================================
