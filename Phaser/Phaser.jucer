@@ -8,6 +8,12 @@
   <MAINGROUP id="DKEKGU" name="Phaser">
     <GROUP id="{C8DF5903-E013-87F9-A819-DDA908ED1C5E}" name="Source">
       <GROUP id="{82D76D4A-DDF2-BE1F-0FC4-7A6C0C29A57D}" name="Common">
+        <FILE id="xQlTlx" name="DisplayComponent.cpp" compile="1" resource="0"
+              file="../Common/DisplayComponent.cpp"/>
+        <FILE id="mWiAWm" name="DisplayComponent.h" compile="0" resource="0"
+              file="../Common/DisplayComponent.h"/>
+        <FILE id="Vr5pJo" name="PluginParameter.h" compile="0" resource="0"
+              file="../Common/PluginParameter.h"/>
         <GROUP id="{7942EB6F-36A4-EE40-6A2A-E5F38BFD1EBA}" name="LookAndFeel">
           <FILE id="blz1jJ" name="CustomGraphics.cpp" compile="1" resource="0"
                 file="../Common/LookAndFeel/CustomGraphics.cpp"/>
@@ -15,6 +21,19 @@
                 file="../Common/LookAndFeel/CustomGraphics.h"/>
         </GROUP>
         <GROUP id="{24C97701-AC4F-12DF-3B09-99914D34A873}" name="Resources">
+          <GROUP id="{B3FEFF6A-D329-BCEE-BDAE-BE06721FB46E}" name="bg">
+            <FILE id="j5MBSJ" name="background.png" compile="0" resource="1" file="../Common/Resources/bg/background.png"/>
+            <FILE id="omcvim" name="chorusBackground .png" compile="0" resource="1"
+                  file="../Common/Resources/bg/chorusBackground .png"/>
+            <FILE id="vsM5HO" name="flangerBackground.png" compile="0" resource="1"
+                  file="../Common/Resources/bg/flangerBackground.png"/>
+            <FILE id="bDh0Se" name="phaserBackground.png" compile="0" resource="1"
+                  file="../Common/Resources/bg/phaserBackground.png"/>
+            <FILE id="Q9a2RE" name="pingpongBackground.png" compile="0" resource="1"
+                  file="../Common/Resources/bg/pingpongBackground.png"/>
+            <FILE id="LkzJX1" name="reverbBackground.png" compile="0" resource="1"
+                  file="../Common/Resources/bg/reverbBackground.png"/>
+          </GROUP>
           <FILE id="fTlC0L" name="background.png" compile="0" resource="1" file="../Common/Resources/background.png"/>
           <FILE id="aWrHFu" name="combo_box.png" compile="0" resource="1" file="../Common/Resources/combo_box.png"/>
           <FILE id="SVQAY4" name="display_area.png" compile="0" resource="1"
@@ -31,8 +50,6 @@
       <FILE id="tBfK9L" name="PluginEditor.cpp" compile="1" resource="0"
             file="Source/PluginEditor.cpp"/>
       <FILE id="CbQXXA" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
-      <FILE id="gS0tjc" name="PluginParameter.h" compile="0" resource="0"
-            file="Source/PluginParameter.h"/>
       <FILE id="KtvwK2" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>
       <FILE id="s11Jy3" name="PluginProcessor.h" compile="0" resource="0"

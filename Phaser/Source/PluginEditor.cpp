@@ -12,12 +12,106 @@
 PhaserAudioProcessorEditor::PhaserAudioProcessorEditor(PhaserAudioProcessor& p)
 	: AudioProcessorEditor(&p), processor(p)
 {
+	const Array<AudioProcessorParameter*> parameters = processor.getParameters();
+	int comboBoxCounter = 0;
+
+	int editorHeight = 2 * editorMargin;
+	for (int i = 0; i < parameters.size(); ++i) {
+		if (const AudioProcessorParameterWithID* parameter =
+			dynamic_cast<AudioProcessorParameterWithID*> (parameters[i])) {
+
+			if (processor.parameters.parameterTypes[i] == "Slider") 
+			{
+				Slider* aSlider;
+				sliders.add(aSlider = new Slider());
+				aSlider->setTextValueSuffix(parameter->label);
+				aSlider->setName(parameter->name);
+				aSlider->setVisible(true);
+				aSlider->addListener(this);
+				aSlider->setSliderStyle(Slider::RotaryVerticalDrag);
+				aSlider->setTextBoxStyle(Slider::NoTextBox,
+					false, sliderTextEntryBoxWidth, sliderTextEntryBoxHeight);
+
+				if (parameter->name == processor.gainParamName)
+				{
+					aSlider->setTooltip(translate("bipolar;"));
+				}
+				
+				SliderAttachment* aSliderAttachment;
+				sliderAttachments.add(aSliderAttachment =
+					new SliderAttachment(processor.parameters.valueTreeState, parameter->paramID, *aSlider));
+
+				components.add(aSlider);
+				editorHeight += sliderHeight;
+			}
+
+			//======================================
+
+			else if (processor.parameters.parameterTypes[i] == "ToggleButton") {
+				ToggleButton* aButton;
+				toggles.add(aButton = new ToggleButton());
+				aButton->setName(parameter->name);
+				aButton->addListener(this);
+				aButton->setToggleState(parameter->getDefaultValue(), dontSendNotification);
+
+				ButtonAttachment* aButtonAttachment;
+				buttonAttachments.add(aButtonAttachment =
+					new ButtonAttachment(processor.parameters.valueTreeState, parameter->paramID, *aButton));
+
+				components.add(aButton);
+				editorHeight += buttonHeight;
+			}
+
+			//======================================
+
+			else if (processor.parameters.parameterTypes[i] == "ComboBox") {
+				ComboBox* aComboBox;
+				comboBoxes.add(aComboBox = new ComboBox());
+				aComboBox->setEditableText(false);
+				aComboBox->setName(parameter->name);
+				aComboBox->addListener(this);
+				aComboBox->setJustificationType(Justification::left);
+				aComboBox->addItemList(processor.parameters.comboBoxItemLists[comboBoxCounter++], 1);
+
+				ComboBoxAttachment* aComboBoxAttachment;
+				comboBoxAttachments.add(aComboBoxAttachment =
+					new ComboBoxAttachment(processor.parameters.valueTreeState, parameter->paramID, *aComboBox));
+
+				components.add(aComboBox);
+				editorHeight += comboBoxHeight;
+			}
+
+			components.getLast()->setName(parameter->name);
+			components.getLast()->setComponentID(parameter->paramID);
+			addAndMakeVisible(components.getLast());
+		}
+	}
+
 	setSize(pluginWidth + border * 2, pluginHeight + border);
 	setLookAndFeel(&customGraphics);
 
 	defineRects();
-	defineComponents();
-	addComponents();
+
+	backgroundImage = ImageCache::getFromMemory(BinaryData::phaserBackground_png,
+		BinaryData::phaserBackground_pngSize);
+	 
+	displayComponent.setVisible(true);
+	displayComponent.setBounds(headerDisplayRect);
+	addAndMakeVisible(displayComponent);
+
+	savePresetButton.setButtonText("Save Preset");
+	savePresetButton.setVisible(true);
+	savePresetButton.changeWidthToFitText();
+	savePresetButton.addListener(this);
+	savePresetButton.setBounds(savePresetButtonRect);
+	addAndMakeVisible(savePresetButton);
+
+	loadPresetButton.setButtonText("Load Preset");
+	loadPresetButton.setVisible(true);
+	loadPresetButton.changeWidthToFitText();
+	loadPresetButton.addListener(this);
+	loadPresetButton.setBounds(loadPresetButtonRect);
+	addAndMakeVisible(loadPresetButton);
 }
 
 PhaserAudioProcessorEditor::~PhaserAudioProcessorEditor()
@@ -31,35 +125,45 @@ void PhaserAudioProcessorEditor::paint(Graphics& g)
 	g.setColour(Colours::whitesmoke);
 	g.fillAll(getLookAndFeel().findColour(ResizableWindow::backgroundColourId));
 
-	g.drawRect(mainArea);
-	g.drawRect(headerRect);
-	g.drawRect(numFiltersRect);
-	g.drawRect(lfoRect);
-	g.drawRect(controlsRect);
-	g.drawRect(footerRect);
-	//--------------------><
-	g.drawRect(numFiltersSelectorRect);
+	g.drawImageWithin(*&backgroundImage,
+		getLocalBounds().getX(),
+		getLocalBounds().getY(),
+		getLocalBounds().getWidth(),
+		getLocalBounds().getHeight(), RectanglePlacement::fillDestination);
 
-	g.drawRect(lfoTitleRect);
-	g.drawRect(lfoWaveSelectorTitleRect);
-	g.drawRect(lfoWaveSelectorRect);
-	g.drawRect(lfoFrequencyKnobRect);
-	g.drawRect(lfoFrequencyKnobLabelRect);
+	if (displayComponent.debugRects)
+	{
+		g.drawRect(mainArea);
+		g.drawRect(headerRect);
+		g.drawRect(numFiltersRect);
+		g.drawRect(lfoRect);
+		g.drawRect(controlsRect);
+		g.drawRect(footerRect);
+		//--------------------><
+		g.drawRect(numFiltersSelectorRect);
 
-	g.drawRect(minFrequencyKnobRect);
-	g.drawRect(minFrequencyKnobLabelRect);
-	g.drawRect(sweepWidthKnobRect);
-	g.drawRect(sweepWidthKnobLabelRect);
-	g.drawRect(feedbackKnobRect);
-	g.drawRect(feedbackKnobLabelRect);
-	g.drawRect(depthKnobRect);
-	g.drawRect(depthKnobLabelRect);
-	g.drawRect(dryWetKnobRect);
-	g.drawRect(dryWetKnobLabelRect);
+		g.drawRect(lfoTitleRect);
+		g.drawRect(lfoWaveSelectorTitleRect);
+		g.drawRect(lfoWaveSelectorRect);
+		g.drawRect(lfoFrequencyKnobRect);
+		g.drawRect(lfoFrequencyKnobLabelRect);
 
-	//--------------------><
-	g.drawFittedText("Enable Stereo", useStereoToggleLabelRect, Justification::centred, 1);
+		g.drawRect(minFrequencyKnobRect);
+		g.drawRect(minFrequencyKnobLabelRect);
+		g.drawRect(sweepWidthKnobRect);
+		g.drawRect(sweepWidthKnobLabelRect);
+		g.drawRect(feedbackKnobRect);
+		g.drawRect(feedbackKnobLabelRect);
+		g.drawRect(depthKnobRect);
+		g.drawRect(depthKnobLabelRect);
+		g.drawRect(gainKnobRect);
+		g.drawRect(gainKnobLabelRect);
+	}
 	
+	//--------------------><
+	
+	g.drawFittedText("Enable Stereo", useStereoToggleLabelRect, Justification::centred, 1);
+
 	g.drawFittedText("Num Filters", numFiltersLabelRect, Justification::centred, 1);
 
 	g.drawFittedText("LFO", lfoTitleRect, Justification::centred, 1);
@@ -70,20 +174,28 @@ void PhaserAudioProcessorEditor::paint(Graphics& g)
 	g.drawFittedText("Width", sweepWidthKnobLabelRect, Justification::centred, 1);
 	g.drawFittedText("Feedback", feedbackKnobLabelRect, Justification::centred, 1);
 	g.drawFittedText("Depth", depthKnobLabelRect, Justification::centred, 1);
-	g.drawFittedText("Dry/Wet", dryWetKnobLabelRect, Justification::centred, 1);
+	g.drawFittedText("Gain", gainKnobLabelRect, Justification::centred, 1);
 }
 
 void PhaserAudioProcessorEditor::resized()
 {
-	useStereoToggle.setBounds(useStereoToggleRect);
-	numFiltersSelector.setBounds(numFiltersSelectorRect);
-	lfoWaveSelector.setBounds(lfoWaveSelectorRect);
-	depthKnob.setBounds(depthKnobRect);
-	feedbackKnob.setBounds(feedbackKnobRect);
-	minFrequencyKnob.setBounds(minFrequencyKnobRect);
-	sweepWidthKnob.setBounds(sweepWidthKnobRect);
-	lfoFrequencyKnob.setBounds(lfoFrequencyKnobRect);
-	dryWetKnob.setBounds(dryWetKnobRect);
+	defineRects();
+	for (auto i = 0; i < components.size(); ++i)
+	{
+		if (components[i]->getName() == processor.numFiltersParamName) components[i]->setBounds(numFiltersSelectorRect);
+		if (components[i]->getName() == processor.lfoWaveformParamName) components[i]->setBounds(lfoWaveSelectorRect);
+		if (components[i]->getName() == processor.useStereoParamName) components[i]->setBounds(useStereoToggleRect);
+		if (components[i]->getName() == processor.depthParamName) components[i]->setBounds(depthKnobRect);
+		if (components[i]->getName() == processor.feedbackParamName) components[i]->setBounds(feedbackKnobRect);
+		if (components[i]->getName() == processor.gainParamName) components[i]->setBounds(gainKnobRect);
+		if (components[i]->getName() == processor.minFrequencyParamName) components[i]->setBounds(minFrequencyKnobRect);
+		if (components[i]->getName() == processor.sweepWidthParamName) components[i]->setBounds(sweepWidthKnobRect);
+		if (components[i]->getName() == processor.lfoFrequencyParamName) components[i]->setBounds(lfoFrequencyKnobRect);
+
+	}
+	displayComponent.setBounds(headerDisplayRect);
+	savePresetButton.setBounds(savePresetButtonRect);
+	loadPresetButton.setBounds(loadPresetButtonRect);
 }
 
 void PhaserAudioProcessorEditor::defineRects()
@@ -136,36 +248,49 @@ void PhaserAudioProcessorEditor::defineRects()
 	// 	remainingHeight);
 
 
-	headerLeftRect = Rectangle<int> (
+	headerLeftRect = Rectangle<int>(
 		headerRect.getX(),
-		headerRect.getY(),
+		headerRect.getY() + margin/2,
 		headerRect.getWidth() / 3,
-		headerRect.getHeight());
-	
-	headerDisplayRect = Rectangle<int> (
+		headerRect.getHeight() - margin);
+
+	headerDisplayRect = Rectangle<int>(
 		headerLeftRect.getX() + headerLeftRect.getWidth(),
 		headerLeftRect.getY(),
 		headerLeftRect.getWidth(),
 		headerLeftRect.getHeight());
-	
-	headerRightRect = Rectangle<int> (
+
+	headerRightRect = Rectangle<int>(
 		headerDisplayRect.getX() + headerDisplayRect.getWidth(),
 		headerDisplayRect.getY(),
 		headerDisplayRect.getWidth(),
 		headerDisplayRect.getHeight());
-	
-	useStereoToggleLabelRect = Rectangle<int> (
-		headerRightRect.getX(),
+
+	useStereoToggleLabelRect = Rectangle<int>(
+		headerRightRect.getX() + border,
 		headerRightRect.getY(),
 		headerRightRect.getWidth() / 2,
 		headerRightRect.getHeight());
-	
-	useStereoToggleRect = Rectangle<int> (
-		useStereoToggleLabelRect.getX() + useStereoToggleLabelRect.getWidth(),
+
+	useStereoToggleRect = Rectangle<int>(
+		useStereoToggleLabelRect.getX() + useStereoToggleLabelRect.getWidth() + border,
 		useStereoToggleLabelRect.getY(),
-		useStereoToggleLabelRect.getWidth(),
+		useStereoToggleLabelRect.getWidth()/3,
 		useStereoToggleLabelRect.getHeight());
-	
+
+	loadPresetButtonRect = Rectangle<int>(
+		headerLeftRect.getX(),
+		headerLeftRect.getY(),
+		headerLeftRect.getWidth() / 2 - border,
+		headerLeftRect.getHeight());
+
+	savePresetButtonRect = Rectangle<int>(
+		loadPresetButtonRect.getX() + loadPresetButtonRect.getWidth() + border,
+		loadPresetButtonRect.getY(),
+		loadPresetButtonRect.getWidth(),
+		loadPresetButtonRect.getHeight());
+
+
 	// ***************************************************************************************
 
 	numFiltersLabelRect = Rectangle<int>(
@@ -276,107 +401,15 @@ void PhaserAudioProcessorEditor::defineRects()
 		depthKnobRect.getWidth(),
 		labelHeight);
 
-	dryWetKnobRect = Rectangle<int>(
+	gainKnobRect = Rectangle<int>(
 		depthKnobRect.getX() + depthKnobRect.getWidth() + margin,
 		depthKnobRect.getY(),
 		depthKnobRect.getWidth(),
 		depthKnobRect.getHeight());
 
-	dryWetKnobLabelRect = Rectangle<int>(
+	gainKnobLabelRect = Rectangle<int>(
 		depthKnobLabelRect.getX() + depthKnobLabelRect.getWidth() + margin,
 		depthKnobLabelRect.getY(),
 		depthKnobLabelRect.getWidth(),
 		depthKnobLabelRect.getHeight());
 }
-
-void PhaserAudioProcessorEditor::defineComponents()
-{
-	useStereoToggleSlider.setRange(0, 1, 1);
-	useStereoToggleSlider.setVisible(false);
-	useStereoToggleSlider.addListener(this);
-
-	const auto chorusIsEnabled = static_cast<int>(*processor.valueTreeState.getRawParameterValue(
-		processor.useStereoParamName)) == 1;
-	useStereoToggle.setToggleState(chorusIsEnabled, NotificationType::dontSendNotification);
-	useStereoToggle.setVisible(true);
-	useStereoToggle.addListener(this);
-
-	const auto selectedIndex = static_cast<int>(*processor.valueTreeState.getRawParameterValue(processor.numFiltersParamName));
-	numFiltersSelector.addItemList(processor.NUM_FILTERS, 1);
-	numFiltersSelector.setText(processor.NUM_FILTERS[selectedIndex]);
-	numFiltersSelector.setVisible(true);
-	numFiltersSelector.setEnabled(true);
-	numFiltersSelector.addListener(this);
-
-	const auto selectedWave = static_cast<int>(*processor.valueTreeState.getRawParameterValue(processor.lfoWaveformParamName));
-	lfoWaveSelector.addItemList(processor.LFO_WAVEFORMS, 1);
-	lfoWaveSelector.setText(processor.LFO_WAVEFORMS[selectedWave]);
-	lfoWaveSelector.setVisible(true);
-	lfoWaveSelector.setEnabled(true);
-	lfoWaveSelector.addListener(this);
-
-	depthKnob.setSliderStyle(Slider::SliderStyle::RotaryVerticalDrag);
-	depthKnob.setRange(processor.zeroToOneMinValue, processor.zeroToOneMaxValue, processor.zeroToOneStepValue);
-	depthKnob.setTextBoxStyle(Slider::NoTextBox, false, 100, 30);
-	depthKnob.setSkewFactorFromMidPoint(processor.zeroToOneMidpointValue);
-	depthKnob.setTooltip(translate("effect;"));
-	depthKnob.setVisible(true);
-	depthKnob.addListener(this);
-	
-	feedbackKnob.setSliderStyle(Slider::SliderStyle::RotaryVerticalDrag);
-	feedbackKnob.setRange(processor.zeroToOneMinValue, processor.zeroToOneMaxValue, processor.zeroToOneStepValue);
-	feedbackKnob.setTextBoxStyle(Slider::NoTextBox, false, 100, 30);
-	feedbackKnob.setSkewFactorFromMidPoint(processor.zeroToOneMidpointValue);
-	feedbackKnob.setTooltip(translate("effect;"));
-	feedbackKnob.setVisible(true);
-	feedbackKnob.addListener(this);
-
-	dryWetKnob.setSliderStyle(Slider::SliderStyle::RotaryVerticalDrag);
-	dryWetKnob.setRange(processor.zeroToOneMinValue, processor.zeroToOneMaxValue, processor.zeroToOneStepValue);
-	dryWetKnob.setTextBoxStyle(Slider::NoTextBox, false, 100, 30);
-	dryWetKnob.setSkewFactorFromMidPoint(processor.zeroToOneMidpointValue);
-	dryWetKnob.setTooltip(translate("effect;"));
-	dryWetKnob.setVisible(true);
-	dryWetKnob.addListener(this);
-
-	minFrequencyKnob.setSliderStyle(Slider::SliderStyle::RotaryVerticalDrag);
-	minFrequencyKnob.setRange(processor.minFrequencyMinValue, processor.minFrequencyMaxValue, processor.minFrequencyStepValue);
-	minFrequencyKnob.setTextBoxStyle(Slider::NoTextBox, false, 100, 30);
-	minFrequencyKnob.setSkewFactorFromMidPoint(processor.minFrequencyMidpointValue);
-	minFrequencyKnob.setTooltip(translate("effect;"));
-	minFrequencyKnob.setVisible(true);
-	minFrequencyKnob.addListener(this);
-
-	sweepWidthKnob.setSliderStyle(Slider::SliderStyle::RotaryVerticalDrag);
-	sweepWidthKnob.setRange(processor.sweepWidthMinValue, processor.sweepWidthMaxValue, processor.sweepWidthStepValue);
-	sweepWidthKnob.setTextBoxStyle(Slider::NoTextBox, false, 100, 30);
-	sweepWidthKnob.setSkewFactorFromMidPoint(processor.sweepWidthMidpointValue);
-	sweepWidthKnob.setTooltip(translate("effect;"));
-	sweepWidthKnob.setVisible(true);
-	sweepWidthKnob.addListener(this);
-
-	lfoFrequencyKnob.setSliderStyle(Slider::SliderStyle::RotaryVerticalDrag);
-	lfoFrequencyKnob.setRange(processor.lfoFrequencyMinValue, processor.lfoFrequencyMaxValue, processor.lfoFrequencyStepValue);
-	lfoFrequencyKnob.setTextBoxStyle(Slider::NoTextBox, false, 100, 30);
-	lfoFrequencyKnob.setSkewFactorFromMidPoint(processor.lfoFrequencyMidpointValue);
-	lfoFrequencyKnob.setTooltip(translate("effect;"));
-	lfoFrequencyKnob.setVisible(true);
-	lfoFrequencyKnob.addListener(this);
-
-	resized();
-}
-
-void PhaserAudioProcessorEditor::addComponents()
-{
-	addAndMakeVisible(useStereoToggle);
-	addAndMakeVisible(numFiltersSelector);
-	addAndMakeVisible(lfoWaveSelector);
-	addAndMakeVisible(depthKnob);
-	addAndMakeVisible(feedbackKnob);
-	addAndMakeVisible(minFrequencyKnob);
-	addAndMakeVisible(sweepWidthKnob);
-	addAndMakeVisible(lfoFrequencyKnob);
-	addAndMakeVisible(dryWetKnob);
-}
-
-//==============================================================================

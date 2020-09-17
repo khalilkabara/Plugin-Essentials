@@ -10,7 +10,7 @@
 #include <cmath>
 
 #include "../JuceLibraryCode/JuceHeader.h"
-#include "PluginParameter.h"
+#include "../../Common/PluginParameter.h"
 
 //==============================================================================
 
@@ -27,34 +27,18 @@ public:
 	void prepareToPlay(double sampleRate, int samplesPerBlock) override;
 	void releaseResources() override;
 	void processBlock(AudioSampleBuffer&, MidiBuffer&) override;
-
-	//==============================================================================
-
 	void getStateInformation(MemoryBlock& destData) override;
 	void setStateInformation(const void* data, int sizeInBytes) override;
-
-	//==============================================================================
-
 	AudioProcessorEditor* createEditor() override;
 	bool hasEditor() const override;
-
-	//==============================================================================
-
 #ifndef JucePlugin_PreferredChannelConfigurations
 	bool isBusesLayoutSupported(const BusesLayout& layouts) const override;
 #endif
-
-	//==============================================================================
-
 	const String getName() const override;
-
 	bool acceptsMidi() const override;
 	bool producesMidi() const override;
 	bool isMidiEffect() const override;
 	double getTailLengthSeconds() const override;
-
-	//==============================================================================
-
 	int getNumPrograms() override;
 	int getCurrentProgram() override;
 	void setCurrentProgram(int index) override;
@@ -70,8 +54,7 @@ public:
 		"Sawtooth"
 	};
 
-	enum waveformIndex
-	{
+	enum waveformIndex {
 		waveformSine = 0,
 		waveformTriangle,
 		waveformSquare,
@@ -91,11 +74,11 @@ public:
 			double tan_half_wc = tan(wc / 2.0);
 
 			coefficients = IIRCoefficients(/* b0 */ tan_half_wc - 1.0,
-			                                        /* b1 */ tan_half_wc + 1.0,
-			                                        /* b2 */ 0.0,
-			                                        /* a0 */ tan_half_wc + 1.0,
-			                                        /* a1 */ tan_half_wc - 1.0,
-			                                        /* a2 */ 0.0);
+				/* b1 */ tan_half_wc + 1.0,
+				/* b2 */ 0.0,
+				/* a0 */ tan_half_wc + 1.0,
+				/* a1 */ tan_half_wc - 1.0,
+				/* a2 */ 0.0);
 
 			setCoefficients(coefficients);
 		}
@@ -103,7 +86,7 @@ public:
 
 	OwnedArray<Filter> filters;
 	Array<float> filteredOutputs;
-	void updateFilters(double centreFrequency) const;
+	void updateFilters(double centreFrequency);
 	int numFiltersPerChannel;
 	unsigned int sampleCountToUpdateFilters;
 	unsigned int updateFiltersInterval;
@@ -112,79 +95,86 @@ public:
 	float inverseSampleRate;
 	float twoPi;
 
-	float lfo(float phase, int waveform) const;
+	float lfo(float phase, int waveform);
 
 	//======================================
 
-	// PluginParametersManager parameters;
-	
-	float paramDepth;
-	float paramFeedback;
-	float paramNumFilters;
-	float paramMinFrequency;
-	float paramSweepWidth;
-	float paramLFOfrequency;
-	float paramLFOwaveform;
-	float paramStereo;
+	PluginParametersManager parameters;
 
-	//******************************************************************************
+	PluginParameterLinSlider paramGain;
+	PluginParameterLinSlider paramDepth;
+	PluginParameterLinSlider paramFeedback;
+	PluginParameterComboBox paramNumFilters;
+	PluginParameterLogSlider paramMinFrequency;
+	PluginParameterLogSlider paramSweepWidth;
+	PluginParameterLinSlider paramLFOfrequency;
+	PluginParameterComboBox paramLFOwaveform;
+	PluginParameterToggle paramStereo;
 
-	AudioProcessorValueTreeState valueTreeState;
 	UndoManager undoManager;
-	const String SAVED_PARAMS_NAME{"savedParams"};
+	const String SAVED_PARAMS_NAME{ "savedParams" };
 
-	const String numFiltersParamName{"numFilters"};
-	const String lfoWaveformParamName{"lfoWaveform"};
-	const String useStereoParamName{"useStereo"};
-	const String depthParamName{"depth"};
-	const String feedbackParamName{"feedback"};
-	const String dryWetParamName{"dryWet"};
-	const String minFrequencyParamName{"minFrequency"};
-	const String sweepWidthParamName{"sweepWidth"};
-	const String lfoFrequencyParamName{"lfoFrequency"};
+	const String numFiltersParamName{ "numFilters" };
+	const String lfoWaveformParamName{ "lfoWaveform" };
+	const String useStereoParamName{ "enableStereo" };
+	const String depthParamName{ "depth" };
+	const String feedbackParamName{ "feedback" };
+	const String gainParamName{ "gain" };
+	const String minFrequencyParamName{ "frequency" };
+	const String sweepWidthParamName{ "sweepWidth" };
+	const String lfoFrequencyParamName{ "lfoFrequency" };
 
-	// feedback 0.0~0.9
-	// min freq 0.0~1000, sweep width 0 - 3000, lfo freq 0 - 2hz
+	const String allowedFileFormat = "*.wqp";
+	const String presetExtension = ".wqp";
+	
+	void savePreset()
+	{
+		const auto state = parameters.valueTreeState.copyState();
+		const std::unique_ptr<XmlElement> xml(state.createXml());
+		
+		FileChooser fileChooser{ "Save Preset", File() , allowedFileFormat };
+		String url = "";
 
-	const StringArray NUM_FILTERS{"2", "4", "6", "8", "10"};
-	const StringArray LFO_WAVEFORMS{"Sin", "Saw", "Triangle", "Square"};
-	const float zeroToOneMinValue = 0.0;
-	const float zeroToOneMaxValue = 1.0;
-	const float zeroToOneDefaultValue = 0.8;
-	const float zeroToOneMidpointValue = 0.3;
-	const float zeroToOneStepValue = 0.01;
+		if (fileChooser.browseForFileToSave(true))
+			url = fileChooser.getResult().getFullPathName();
+		else return;
 
-	const float minFrequencyMinValue = 0.0;
-	const float minFrequencyMaxValue = 1000.0;
-	const float minFrequencyDefaultValue = 250.0;
-	const float minFrequencyMidpointValue = 250.0;
-	const float minFrequencyStepValue = 1.0;
+		xml->writeTo(File(url));
+	}
 
-	const float sweepWidthMinValue = 0.0;
-	const float sweepWidthMaxValue = 3000.0;
-	const float sweepWidthDefaultValue = 500.0;
-	const float sweepWidthMidpointValue = 500.0;
-	const float sweepWidthStepValue = 1.0;
+	void loadPreset()
+	{
+		File preset;
+		FileChooser fileChooser{ "Load Preset", File(), allowedFileFormat };
 
-	const float lfoFrequencyMinValue = 0.0;
-	const float lfoFrequencyMaxValue = 2.0;
-	const float lfoFrequencyDefaultValue = 0.5;
-	const float lfoFrequencyMidpointValue = 0.5;
-	const float lfoFrequencyStepValue = 0.01;
+		if (fileChooser.browseForFileToOpen())
+			preset = fileChooser.getResult();
+		else return;
 
-	const float toggleMinValue = 0.0;
-	const float toggleMaxValue = 1.0;
-	const float toggleDefaultValue = 1.0;
-	const float toggleStepValue = 1.0;
+		const std::unique_ptr<XmlElement> xml(parseXML(preset));
 
-	//******************************************************************************
+		parameters.valueTreeState.replaceState(ValueTree::fromXml(*xml));
+	}
 
+	void resetPlugin()
+	{
+		const ValueTree state = parameters.valueTreeState.copyState();
+		const std::unique_ptr<XmlElement> tempXml(state.createXml());
+
+		forEachXmlChildElementWithTagName(*tempXml, child, "PARAM")
+		{
+			const float defaultValue = parameters.valueTreeState.getParameter(child->getStringAttribute("id"))->getDefaultValue();
+			const auto range = parameters.valueTreeState.getParameter(child->getStringAttribute("id"))->getNormalisableRange();
+			const auto unRangedValue = jmap(defaultValue, range.start, range.end);
+			child->setAttribute("value", unRangedValue);
+		}
+
+		parameters.valueTreeState.replaceState(ValueTree::fromXml(*tempXml));
+	}
 
 private:
+	
 	//==============================================================================
-
-	void updatePluginParams();
-	void createStateTrees();
 
 	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PhaserAudioProcessor)
 };

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<JUCERPROJECT id="iO13zR" name="Flanger" projectType="audioplug" companyName="Worq"
+              companyWebsite="worq.com.ng" pluginFormats="buildStandalone,buildVST3"
+              pluginCharacteristicsValue="pluginProducesMidiOut,pluginWantsMidiIn"
+              pluginManufacturerCode="JGIL" pluginCode="flng" displaySplashScreen="1"
+              jucerFormatVersion="1">
+  <MAINGROUP id="DFclFd" name="Flanger">
+    <GROUP id="{C0200978-29EA-0C6B-3307-66F2F8B328DC}" name="Source">
+      <GROUP id="{1AA89D81-89E9-A6AC-DB85-B108FE8B8845}" name="Common">
+        <GROUP id="{1446485D-9FD6-83DE-53CC-F787AA47C21D}" name="LookAndFeel">
+          <FILE id="IVRDWX" name="CustomGraphics.cpp" compile="1" resource="0"
+                file="../Common/LookAndFeel/CustomGraphics.cpp"/>
+          <FILE id="SQfY14" name="CustomGraphics.h" compile="0" resource="0"
+                file="../Common/LookAndFeel/CustomGraphics.h"/>
+        </GROUP>
+        <GROUP id="{2C4F5182-FEC1-2756-C6DF-FEB54ABC533C}" name="Resources">
+          <GROUP id="{A9498B09-E552-89EF-7E05-1CDF9974FF68}" name="bg">
+            <FILE id="orSc0K" name="background.png" compile="0" resource="1" file="../Common/Resources/bg/background.png"/>
+            <FILE id="fJz2Ui" name="chorusBackground .png" compile="0" resource="1"
+                  file="../Common/Resources/bg/chorusBackground .png"/>
+            <FILE id="nzfh5E" name="flangerBackground.png" compile="0" resource="1"
+                  file="../Common/Resources/bg/flangerBackground.png"/>
+            <FILE id="SBXHSR" name="phaserBackground.png" compile="0" resource="1"
+                  file="../Common/Resources/bg/phaserBackground.png"/>
+            <FILE id="lVdzTX" name="pingpongBackground.png" compile="0" resource="1"
+                  file="../Common/Resources/bg/pingpongBackground.png"/>
+            <FILE id="grqHP8" name="reverbBackground.png" compile="0" resource="1"
+                  file="../Common/Resources/bg/reverbBackground.png"/>
+          </GROUP>
+          <FILE id="pcbiCb" name="background.png" compile="0" resource="1" file="../Common/Resources/background.png"/>
+          <FILE id="CgYmUY" name="combo_box.png" compile="0" resource="1" file="../Common/Resources/combo_box.png"/>
+          <FILE id="xO3coK" name="display_area.png" compile="0" resource="1"
+                file="../Common/Resources/display_area.png"/>
+          <FILE id="d8EN6S" name="knob.png" compile="0" resource="1" file="../Common/Resources/knob.png"/>
+          <FILE id="JXZYfa" name="slider_gap.png" compile="0" resource="1" file="../Common/Resources/slider_gap.png"/>
+          <FILE id="f8y3vx" name="slider_handle.png" compile="0" resource="1"
+                file="../Common/Resources/slider_handle.png"/>
+          <FILE id="ULLOxs" name="switch_knob.png" compile="0" resource="1" file="../Common/Resources/switch_knob.png"/>
+          <FILE id="GNyWKu" name="toggle_button.png" compile="0" resource="1"
+                file="../Common/Resources/toggle_button.png"/>
+        </GROUP>
+        <FILE id="hgv1Ov" name="DisplayComponent.cpp" compile="1" resource="0"
+              file="../Common/DisplayComponent.cpp"/>
+        <FILE id="Ixyqkq" name="DisplayComponent.h" compile="0" resource="0"
+              file="../Common/DisplayComponent.h"/>
+        <FILE id="pklylA" name="PluginParameter.h" compile="0" resource="0"
+              file="../Common/PluginParameter.h"/>
+      </GROUP>
+      <FILE id="jvXJBh" name="PluginProcessor.cpp" compile="1" resource="0"
+            file="Source/PluginProcessor.cpp"/>
+      <FILE id="kOUgn1" name="PluginProcessor.h" compile="0" resource="0"
+            file="Source/PluginProcessor.h"/>
+      <FILE id="oh26g7" name="PluginEditor.cpp" compile="1" resource="0"
+            file="Source/PluginEditor.cpp"/>
+      <FILE id="iGG5gk" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
+    </GROUP>
+  </MAINGROUP>
+  <EXPORTFORMATS>
+    <VS2019 targetFolder="Builds/VisualStudio2019">
+      <CONFIGURATIONS>
+        <CONFIGURATION isDebug="1" name="Debug"/>
+        <CONFIGURATION isDebug="0" name="Release"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_video" path="../../juce"/>
+        <MODULEPATH id="juce_product_unlocking" path="../../juce"/>
+        <MODULEPATH id="juce_osc" path="../../juce"/>
+        <MODULEPATH id="juce_opengl" path="../../juce"/>
+        <MODULEPATH id="juce_gui_extra" path="../../juce"/>
+        <MODULEPATH id="juce_gui_basics" path="../../juce"/>
+        <MODULEPATH id="juce_graphics" path="../../juce"/>
+        <MODULEPATH id="juce_events" path="../../juce"/>
+        <MODULEPATH id="juce_dsp" path="../../juce"/>
+        <MODULEPATH id="juce_data_structures" path="../../juce"/>
+        <MODULEPATH id="juce_cryptography" path="../../juce"/>
+        <MODULEPATH id="juce_core" path="../../juce"/>
+        <MODULEPATH id="juce_box2d" path="../../juce"/>
+        <MODULEPATH id="juce_blocks_basics" path="../../juce"/>
+        <MODULEPATH id="juce_audio_utils" path="../../juce"/>
+        <MODULEPATH id="juce_audio_processors" path="../../juce"/>
+        <MODULEPATH id="juce_audio_plugin_client" path="../../juce"/>
+        <MODULEPATH id="juce_audio_formats" path="../../juce"/>
+        <MODULEPATH id="juce_audio_devices" path="../../juce"/>
+        <MODULEPATH id="juce_audio_basics" path="../../juce"/>
+        <MODULEPATH id="juce_analytics" path="../../juce"/>
+      </MODULEPATHS>
+    </VS2019>
+  </EXPORTFORMATS>
+  <MODULES>
+    <MODULE id="juce_analytics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_devices" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_formats" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_plugin_client" showAllCode="1" useLocalCopy="0"
+            useGlobalPath="1"/>
+    <MODULE id="juce_audio_processors" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_utils" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_blocks_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_box2d" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_core" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_cryptography" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_data_structures" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_dsp" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_events" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_graphics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_gui_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_gui_extra" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_opengl" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_osc" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_product_unlocking" showAllCode="1" useLocalCopy="0"
+            useGlobalPath="1"/>
+    <MODULE id="juce_video" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+  </MODULES>
+  <LIVE_SETTINGS>
+    <WINDOWS/>
+    <OSX/>
+  </LIVE_SETTINGS>
+  <JUCEOPTIONS JUCE_VST3_CAN_REPLACE_VST2="0" JUCE_STRICT_REFCOUNTEDPOINTER="1"/>
+</JUCERPROJECT>
