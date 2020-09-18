@@ -1,31 +1,11 @@
 /*
-  ==============================================================================
-
-    This code is based on the contents of the book: "Audio Effects: Theory,
-    Implementation and Application" by Joshua D. Reiss and Andrew P. McPherson.
-
-    Code by Juan Gil <https://juangil.com/>.
-    Copyright (C) 2017-2019 Juan Gil.
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program. If not, see <https://www.gnu.org/licenses/>.
-
-  ==============================================================================
+ * Created On September 5th 2020.
+ * By Khalil Kabara.
 */
+
 
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
-#include "PluginParameter.h"
 
 //==============================================================================
 
@@ -41,10 +21,11 @@ PingPongDelayAudioProcessor::PingPongDelayAudioProcessor():
                    ),
 #endif
     parameters (*this)
-    , paramBalance (parameters, "Balance input", "", 0.0f, 1.0f, 0.25f)
-    , paramDelayTime (parameters, "Delay time", "s", 0.0f, 5.0f, 0.1f)
-    , paramFeedback (parameters, "Feedback", "", 0.0f, 0.9f, 0.7f)
-    , paramMix (parameters, "Mix", "", 0.0f, 1.0f, 1.0f)
+    , paramGain(parameters, "gain", "db", -24.0f, 24.0f, 0.0f)
+    , paramBalance (parameters, "balance", "", 0.0f, 1.0f, 0.5f)
+    , paramDelayTime (parameters, "delayTime", "s", 0.0f, 10.0f, 0.5f)
+    , paramFeedback (parameters, "feedback", "", 0.0f, 0.9f, 0.7f)
+    , paramMix (parameters, "mix", "", 0.0f, 1.0f, 1.0f)
 {
     parameters.valueTreeState.state = ValueTree (Identifier (getName().removeCharacters ("- ")));
 }
@@ -136,16 +117,11 @@ void PingPongDelayAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiB
 
     //======================================
 
+	buffer.applyGain(Decibels::decibelsToGain(paramGain.getNextValue()));
+
     for (int channel = numInputChannels; channel < numOutputChannels; ++channel)
         buffer.clear (channel, 0, numSamples);
 }
-
-//==============================================================================
-
-
-
-
-
 
 //==============================================================================
 
