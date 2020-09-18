@@ -112,6 +112,13 @@ FlangerAudioProcessorEditor::FlangerAudioProcessorEditor (FlangerAudioProcessor&
 	loadPresetButton.addListener(this);
 	loadPresetButton.setBounds(loadPresetButtonRect);
 	addAndMakeVisible(loadPresetButton);
+
+	aboutButton.setButtonText("About");
+	aboutButton.setVisible(true);
+	aboutButton.changeWidthToFitText();
+	aboutButton.addListener(this);
+	aboutButton.setBounds(aboutButtonRect);
+	addAndMakeVisible(aboutButton);
 }
 
 FlangerAudioProcessorEditor::~FlangerAudioProcessorEditor()
@@ -231,7 +238,19 @@ void FlangerAudioProcessorEditor::defineRects()
 		mainArea.getX(),
 		numFiltersRect.getY() + numFiltersRect.getHeight() + margin,
 		mainArea.getWidth() / 3,
-		remainingHeight);
+		remainingHeight - labelHeight);
+
+	// aboutButtonRect = Rectangle<int>(
+	// 	lfoRect.getX() + lfoRect.getWidth() / 2 - aboutButtonWidth / 2,
+	// 	lfoRect.getY() + lfoRect.getHeight() + margin,
+	// 	aboutButtonWidth,
+	// 	headerDisplayRect.getHeight());
+
+	aboutButtonRect = Rectangle<int>(
+		mainArea.getX() + mainArea.getWidth() - aboutButtonWidth,
+		lfoRect.getY() + lfoRect.getHeight() + margin,
+		aboutButtonWidth,
+		headerDisplayRect.getHeight());
 
 	remainingHeight -= lfoRect.getHeight() + margin;
 

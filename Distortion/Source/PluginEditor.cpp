@@ -3,13 +3,12 @@
  * By Khalil Kabara.
 */
 
-
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
 
 //==============================================================================
 
-PingPongDelayAudioProcessorEditor::PingPongDelayAudioProcessorEditor(PingPongDelayAudioProcessor& p)
+DistortionAudioProcessorEditor::DistortionAudioProcessorEditor(DistortionAudioProcessor& p)
 	: AudioProcessorEditor(&p), processor(p)
 {
 	const Array<AudioProcessorParameter*> parameters = processor.getParameters();
@@ -33,7 +32,9 @@ PingPongDelayAudioProcessorEditor::PingPongDelayAudioProcessorEditor(PingPongDel
 				aSlider->setTextBoxStyle(Slider::NoTextBox,
 				                         false, sliderTextEntryBoxWidth, sliderTextEntryBoxHeight);
 
-				if (parameter->name == processor.gainParamName || parameter->name == processor.balanceParamName)
+				if (parameter->name == processor.inputGainParamName || 
+					parameter->name == processor.outputGainParamName ||
+					parameter->name == processor.toneParamName)
 				{
 					aSlider->setTooltip(translate("bipolar;"));
 				}
@@ -95,8 +96,8 @@ PingPongDelayAudioProcessorEditor::PingPongDelayAudioProcessorEditor(PingPongDel
 
 	defineRects();
 
-	backgroundImage = ImageCache::getFromMemory(BinaryData::pingpongBackground_png,
-	                                            BinaryData::pingpongBackground_pngSize);
+	backgroundImage = ImageCache::getFromMemory(BinaryData::distortionBackground_png,
+	                                            BinaryData::distortionBackground_pngSize);
 
 	displayComponent.setVisible(true);
 	displayComponent.setBounds(headerDisplayRect);
@@ -115,23 +116,22 @@ PingPongDelayAudioProcessorEditor::PingPongDelayAudioProcessorEditor(PingPongDel
 	loadPresetButton.addListener(this);
 	loadPresetButton.setBounds(loadPresetButtonRect);
 	addAndMakeVisible(loadPresetButton);
-	
+
 	aboutButton.setButtonText("About");
 	aboutButton.setVisible(true);
 	aboutButton.changeWidthToFitText();
 	aboutButton.addListener(this);
 	aboutButton.setBounds(aboutButtonRect);
 	addAndMakeVisible(aboutButton);
-	
 }
 
-PingPongDelayAudioProcessorEditor::~PingPongDelayAudioProcessorEditor()
+DistortionAudioProcessorEditor::~DistortionAudioProcessorEditor()
 {
 }
 
 //==============================================================================
 
-void PingPongDelayAudioProcessorEditor::paint(Graphics& g)
+void DistortionAudioProcessorEditor::paint(Graphics& g)
 {
 	g.setColour(Colours::whitesmoke);
 	g.fillAll(getLookAndFeel().findColour(ResizableWindow::backgroundColourId));
@@ -147,41 +147,40 @@ void PingPongDelayAudioProcessorEditor::paint(Graphics& g)
 		g.drawRect(mainArea);
 		g.drawRect(headerRect);
 
-		g.drawRect(gainKnobRect);
-		g.drawRect(gainKnobLabelRect);
-		g.drawRect(feedbackKnobRect);
-		g.drawRect(feedbackKnobLabelRect);
-		g.drawRect(delayTimeKnobRect);
-		g.drawRect(delayTimeKnobLabelRect);
-		g.drawRect(mixKnobRect);
-		g.drawRect(mixKnobLabelRect);
+		g.drawRect(inputGainKnobRect);
+		g.drawRect(inputGainKnobLabelRect);
+		g.drawRect(distortionTypeSelectorRect);
+		g.drawRect(outputGainKnobLabelRect);
+		g.drawRect(outputGainKnobRect);
+		g.drawRect(distortionTypeLabelRect);
+		g.drawRect(toneKnobRect);
+		g.drawRect(toneKnobLabelRect);
 	}
 	//--------------------><
 
-	g.drawFittedText("Gain", gainKnobLabelRect, Justification::centred, 1);
-	g.drawFittedText("Balance", balanceKnobLabelRect, Justification::centred, 1);
-	g.drawFittedText("Feedback", feedbackKnobLabelRect, Justification::centred, 1);
-	g.drawFittedText("Delay Time", delayTimeKnobLabelRect, Justification::centred, 1);
-	g.drawFittedText("Mix", mixKnobLabelRect, Justification::centred, 1);
+	g.drawFittedText("Distortion Type", distortionTypeLabelRect, Justification::centred, 1);
+	g.drawFittedText("Input Gain", inputGainKnobLabelRect, Justification::centred, 1);
+	g.drawFittedText("Tone", toneKnobLabelRect, Justification::centred, 1);
+	g.drawFittedText("Output Gain", outputGainKnobLabelRect, Justification::centred, 1);
 }
 
-void PingPongDelayAudioProcessorEditor::resized()
+void DistortionAudioProcessorEditor::resized()
 {
 	defineRects();
 	for (auto i = 0; i < components.size(); ++i)
 	{
-		if (components[i]->getName() == processor.feedbackParamName) components[i]->setBounds(feedbackKnobRect);
-		if (components[i]->getName() == processor.balanceParamName) components[i]->setBounds(balanceKnobRect);
-		if (components[i]->getName() == processor.gainParamName) components[i]->setBounds(gainKnobRect);
-		if (components[i]->getName() == processor.delayTimeParamName) components[i]->setBounds(delayTimeKnobRect);
-		if (components[i]->getName() == processor.mixParamName) components[i]->setBounds(mixKnobRect);
+		if (components[i]->getName() == processor.distortionTypeParamName) 
+			components[i]->setBounds(distortionTypeSelectorRect);
+		if (components[i]->getName() == processor.inputGainParamName) components[i]->setBounds(inputGainKnobRect);
+		if (components[i]->getName() == processor.outputGainParamName) components[i]->setBounds(outputGainKnobRect);
+		if (components[i]->getName() == processor.toneParamName) components[i]->setBounds(toneKnobRect);
 	}
 	displayComponent.setBounds(headerDisplayRect);
 	savePresetButton.setBounds(savePresetButtonRect);
 	loadPresetButton.setBounds(loadPresetButtonRect);
 }
 
-void PingPongDelayAudioProcessorEditor::defineRects()
+void DistortionAudioProcessorEditor::defineRects()
 {
 	mainArea = Rectangle<int>(
 		getLocalBounds().getX() + border,
@@ -235,65 +234,57 @@ void PingPongDelayAudioProcessorEditor::defineRects()
 		headerRect.getWidth() * 1 / 5,
 		headerDisplayRect.getHeight());
 
-	delayTimeKnobRect = Rectangle<int>(
+	//**************************************
+
+	distortionTypeLabelRect = Rectangle<int>(
+		mainArea.getX(),
+		mainArea.getHeight() - remainingHeight,
+		mainArea.getWidth() / 3,
+		mainArea.getHeight() / 5);
+
+	distortionTypeSelectorRect = Rectangle<int>(
+		distortionTypeLabelRect.getX() + distortionTypeLabelRect.getWidth(),
+		distortionTypeLabelRect.getY(),
+		mainArea.getWidth() * 2 / 3,
+		distortionTypeLabelRect.getHeight());
+
+	remainingHeight -= distortionTypeSelectorRect.getHeight() + margin;
+
+	inputGainKnobRect = Rectangle<int>(
 		mainArea.getX(),
 		mainArea.getHeight() - remainingHeight,
 		mainArea.getWidth() / numKnobs,
 		remainingHeight - labelHeight - margin);
 
-	delayTimeKnobLabelRect = Rectangle<int>(
-		delayTimeKnobRect.getX(),
-		delayTimeKnobRect.getY() + delayTimeKnobRect.getHeight() + margin,
-		delayTimeKnobRect.getWidth(),
+	inputGainKnobLabelRect = Rectangle<int>(
+		inputGainKnobRect.getX(),
+		inputGainKnobRect.getY() + inputGainKnobRect.getHeight() + margin,
+		inputGainKnobRect.getWidth(),
 		labelHeight);
 
-	feedbackKnobRect = Rectangle<int>(
-		delayTimeKnobRect.getX() + delayTimeKnobRect.getWidth(),
-		delayTimeKnobRect.getY(),
-		delayTimeKnobRect.getWidth(),
-		delayTimeKnobRect.getHeight());
+	toneKnobRect = Rectangle<int>(
+		inputGainKnobRect.getX() + inputGainKnobRect.getWidth(),
+		inputGainKnobRect.getY(),
+		inputGainKnobRect.getWidth(),
+		inputGainKnobRect.getHeight());
 
-	feedbackKnobLabelRect = Rectangle<int>(
-		delayTimeKnobLabelRect.getX() + delayTimeKnobLabelRect.getWidth(),
-		delayTimeKnobLabelRect.getY(),
-		delayTimeKnobLabelRect.getWidth(),
-		delayTimeKnobLabelRect.getHeight());
+	toneKnobLabelRect = Rectangle<int>(
+		inputGainKnobLabelRect.getX() + inputGainKnobLabelRect.getWidth(),
+		inputGainKnobLabelRect.getY(),
+		inputGainKnobLabelRect.getWidth(),
+		inputGainKnobLabelRect.getHeight());
 
-	balanceKnobRect = Rectangle<int>(
-		feedbackKnobRect.getX() + feedbackKnobRect.getWidth(),
-		feedbackKnobRect.getY(),
-		feedbackKnobRect.getWidth(),
-		feedbackKnobRect.getHeight());
+	outputGainKnobRect = Rectangle<int>(
+		toneKnobRect.getX() + toneKnobRect.getWidth(),
+		toneKnobRect.getY(),
+		toneKnobRect.getWidth(),
+		toneKnobRect.getHeight());
 
-	balanceKnobLabelRect = Rectangle<int>(
-		feedbackKnobLabelRect.getX() + feedbackKnobLabelRect.getWidth(),
-		feedbackKnobLabelRect.getY(),
-		feedbackKnobLabelRect.getWidth(),
-		feedbackKnobLabelRect.getHeight());
-
-	mixKnobRect = Rectangle<int>(
-		balanceKnobRect.getX() + balanceKnobRect.getWidth(),
-		balanceKnobRect.getY(),
-		balanceKnobRect.getWidth(),
-		balanceKnobRect.getHeight());
-
-	mixKnobLabelRect = Rectangle<int>(
-		balanceKnobLabelRect.getX() + balanceKnobLabelRect.getWidth(),
-		balanceKnobLabelRect.getY(),
-		balanceKnobLabelRect.getWidth(),
-		balanceKnobLabelRect.getHeight());
-
-	gainKnobRect = Rectangle<int>(
-		mixKnobRect.getX() + mixKnobRect.getWidth(),
-		mixKnobRect.getY(),
-		mixKnobRect.getWidth(),
-		mixKnobRect.getHeight());
-
-	gainKnobLabelRect = Rectangle<int>(
-		mixKnobLabelRect.getX() + mixKnobLabelRect.getWidth(),
-		mixKnobLabelRect.getY(),
-		mixKnobLabelRect.getWidth(),
-		mixKnobLabelRect.getHeight());
+	outputGainKnobLabelRect = Rectangle<int>(
+		toneKnobLabelRect.getX() + toneKnobLabelRect.getWidth(),
+		toneKnobLabelRect.getY(),
+		toneKnobLabelRect.getWidth(),
+		toneKnobLabelRect.getHeight());
 }
 
 //==============================================================================

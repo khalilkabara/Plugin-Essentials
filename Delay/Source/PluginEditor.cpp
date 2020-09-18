@@ -115,6 +115,13 @@ DelayAudioProcessorEditor::DelayAudioProcessorEditor(DelayAudioProcessor& p)
 	loadPresetButton.addListener(this);
 	loadPresetButton.setBounds(loadPresetButtonRect);
 	addAndMakeVisible(loadPresetButton);
+
+	aboutButton.setButtonText("About");
+	aboutButton.setVisible(true);
+	aboutButton.changeWidthToFitText();
+	aboutButton.addListener(this);
+	aboutButton.setBounds(aboutButtonRect);
+	addAndMakeVisible(aboutButton);
 }
 
 DelayAudioProcessorEditor::~DelayAudioProcessorEditor()
@@ -194,13 +201,13 @@ void DelayAudioProcessorEditor::defineRects()
 	headerLeftRect = Rectangle<int>(
 		headerRect.getX(),
 		headerRect.getY() + margin / 2,
-		headerRect.getWidth() / 3,
+		headerRect.getWidth() * 2 / 5,
 		headerRect.getHeight() - margin);
 
 	headerDisplayRect = Rectangle<int>(
 		headerLeftRect.getX() + headerLeftRect.getWidth(),
 		headerLeftRect.getY(),
-		headerLeftRect.getWidth(),
+		headerLeftRect.getWidth() - border,
 		headerLeftRect.getHeight());
 
 	headerRightRect = Rectangle<int>(
@@ -220,6 +227,12 @@ void DelayAudioProcessorEditor::defineRects()
 		loadPresetButtonRect.getY(),
 		loadPresetButtonRect.getWidth(),
 		loadPresetButtonRect.getHeight());
+
+	aboutButtonRect = Rectangle<int>(
+		headerDisplayRect.getX() + headerDisplayRect.getWidth() + border,
+		headerDisplayRect.getY(),
+		headerRect.getWidth() * 1 / 5,
+		headerDisplayRect.getHeight());
 
 	delayTimeKnobRect = Rectangle<int> (
 		mainArea.getX(),

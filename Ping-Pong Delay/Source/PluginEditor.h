@@ -39,6 +39,10 @@ public:
 		{
 			processor.savePreset();
 		}
+		if (button == &aboutButton)
+		{
+			displayComponent.about(aboutText);
+		}
 
 		if (dynamic_cast<ToggleButton*>(button))
 		{
@@ -133,15 +137,17 @@ private:
 
 	TextButton loadPresetButton;
 	TextButton savePresetButton;
+	TextButton aboutButton;
 
 	const int numKnobs{5};
 
-	const int pluginWidth = 400;
+	const int pluginWidth = 350;
 	const int pluginHeight = 100;
 	const int border = 10;
 	const int margin = 5;
 	const int headerHeight = 20;
 	const int labelHeight = 15;
+	const String aboutText { "Lorem Ipsum" };
 
 	int remainingHeight{0};
 
@@ -155,6 +161,7 @@ private:
 	Rectangle<int> headerLeftRect;
 	Rectangle<int> loadPresetButtonRect;
 	Rectangle<int> savePresetButtonRect;
+	Rectangle<int> aboutButtonRect;
 	Rectangle<int> headerDisplayRect;
 	Rectangle<int> headerRightRect;
 

@@ -112,6 +112,13 @@ PhaserAudioProcessorEditor::PhaserAudioProcessorEditor(PhaserAudioProcessor& p)
 	loadPresetButton.addListener(this);
 	loadPresetButton.setBounds(loadPresetButtonRect);
 	addAndMakeVisible(loadPresetButton);
+
+	aboutButton.setButtonText("About");
+	aboutButton.setVisible(true);
+	aboutButton.changeWidthToFitText();
+	aboutButton.addListener(this);
+	aboutButton.setBounds(aboutButtonRect);
+	addAndMakeVisible(aboutButton);
 }
 
 PhaserAudioProcessorEditor::~PhaserAudioProcessorEditor()
@@ -162,7 +169,7 @@ void PhaserAudioProcessorEditor::paint(Graphics& g)
 	
 	//--------------------><
 	
-	g.drawFittedText("Enable Stereo", useStereoToggleLabelRect, Justification::centred, 1);
+	g.drawFittedText("Stereo", useStereoToggleLabelRect, Justification::centred, 1);
 
 	g.drawFittedText("Num Filters", numFiltersLabelRect, Justification::centred, 1);
 
@@ -230,8 +237,13 @@ void PhaserAudioProcessorEditor::defineRects()
 		mainArea.getX(),
 		numFiltersRect.getY() + numFiltersRect.getHeight() + margin,
 		mainArea.getWidth() / 3,
-		// remainingHeight * 4 / 5);
 		remainingHeight);
+
+	// aboutButtonRect = Rectangle<int>(
+	// 	mainArea.getX() + mainArea.getWidth() - aboutButtonWidth,
+	// 	lfoRect.getY() + lfoRect.getHeight() + margin,
+	// 	aboutButtonWidth,
+	// 	headerDisplayRect.getHeight());
 
 	remainingHeight -= lfoRect.getHeight() + margin;
 
@@ -240,13 +252,6 @@ void PhaserAudioProcessorEditor::defineRects()
 		lfoRect.getY(),
 		mainArea.getWidth() * 2 / 3 - margin,
 		lfoRect.getHeight());
-
-	// footerRect = Rectangle<int>(
-	// 	lfoRect.getX(),
-	// 	lfoRect.getY() + lfoRect.getHeight() + margin,
-	// 	mainArea.getWidth(),
-	// 	remainingHeight);
-
 
 	headerLeftRect = Rectangle<int>(
 		headerRect.getX(),
@@ -267,29 +272,34 @@ void PhaserAudioProcessorEditor::defineRects()
 		headerDisplayRect.getHeight());
 
 	useStereoToggleLabelRect = Rectangle<int>(
-		headerRightRect.getX() + border,
+		headerRightRect.getX() + margin,
 		headerRightRect.getY(),
-		headerRightRect.getWidth() / 2,
+		headerRightRect.getWidth() / 4,
 		headerRightRect.getHeight());
 
 	useStereoToggleRect = Rectangle<int>(
-		useStereoToggleLabelRect.getX() + useStereoToggleLabelRect.getWidth() + border,
+		useStereoToggleLabelRect.getX() + useStereoToggleLabelRect.getWidth() + margin,
 		useStereoToggleLabelRect.getY(),
-		useStereoToggleLabelRect.getWidth()/3,
+		useStereoToggleLabelRect.getWidth(),
 		useStereoToggleLabelRect.getHeight());
+
+	aboutButtonRect = Rectangle<int>(
+		useStereoToggleRect.getX() + useStereoToggleRect.getWidth() + margin,
+		useStereoToggleRect.getY(),
+		headerRightRect.getWidth() / 2 - margin * 3,
+		useStereoToggleRect.getHeight());
 
 	loadPresetButtonRect = Rectangle<int>(
 		headerLeftRect.getX(),
 		headerLeftRect.getY(),
-		headerLeftRect.getWidth() / 2 - border,
+		headerLeftRect.getWidth() / 2 - margin,
 		headerLeftRect.getHeight());
 
 	savePresetButtonRect = Rectangle<int>(
-		loadPresetButtonRect.getX() + loadPresetButtonRect.getWidth() + border,
+		loadPresetButtonRect.getX() + loadPresetButtonRect.getWidth() + margin,
 		loadPresetButtonRect.getY(),
 		loadPresetButtonRect.getWidth(),
 		loadPresetButtonRect.getHeight());
-
 
 	// ***************************************************************************************
 

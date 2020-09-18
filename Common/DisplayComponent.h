@@ -74,6 +74,11 @@ public:
 		currentDisplayDuration = 0;
 	}
 
+	void about(String text)
+	{
+		
+	}
+	
 	const bool debugRects = false;
 
 private:

@@ -110,6 +110,13 @@ ChorusAudioProcessorEditor::ChorusAudioProcessorEditor(ChorusAudioProcessor& p)
 	loadPresetButton.addListener(this);
 	loadPresetButton.setBounds(loadPresetButtonRect);
 	addAndMakeVisible(loadPresetButton);
+
+	aboutButton.setButtonText("About");
+	aboutButton.setVisible(true);
+	aboutButton.changeWidthToFitText();
+	aboutButton.addListener(this);
+	aboutButton.setBounds(aboutButtonRect);
+	addAndMakeVisible(aboutButton);
 }
 
 ChorusAudioProcessorEditor::~ChorusAudioProcessorEditor()
@@ -264,6 +271,12 @@ void ChorusAudioProcessorEditor::defineRects()
 		useStereoToggleLabelRect.getY(),
 		headerRightRect.getWidth() * 1 / 6,
 		useStereoToggleLabelRect.getHeight());
+
+	aboutButtonRect = Rectangle<int>(
+		useStereoToggleRect.getX() + useStereoToggleRect.getWidth() + border,
+		useStereoToggleRect.getY(),
+		headerRightRect.getWidth() * 2 / 6,
+		useStereoToggleRect.getHeight());
 
 	loadPresetButtonRect = Rectangle<int>(
 		headerLeftRect.getX(),

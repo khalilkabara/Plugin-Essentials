@@ -14,7 +14,7 @@
 
 //==============================================================================
 
-class DelayAudioProcessorEditor : public AudioProcessorEditor,
+class DistortionAudioProcessorEditor : public AudioProcessorEditor,
 	Slider::Listener,
 	public ComboBox::Listener,
 	public Button::Listener
@@ -22,8 +22,8 @@ class DelayAudioProcessorEditor : public AudioProcessorEditor,
 public:
 	//==============================================================================
 
-	DelayAudioProcessorEditor(DelayAudioProcessor&);
-	~DelayAudioProcessorEditor();
+	DistortionAudioProcessorEditor(DistortionAudioProcessor&);
+	~DistortionAudioProcessorEditor();
 
 	//==============================================================================
 
@@ -60,13 +60,11 @@ public:
 	{
 		auto text = static_cast<String>(slider->getName()) + ": " + String(slider->getValue(), 2);
 
-		if (slider->getName() == processor.gainParamName)
+		if (slider->getName() == processor.inputGainParamName || 
+			slider->getName() == processor.outputGainParamName ||
+			slider->getName() == processor.toneParamName)
 		{
 			text += "db";
-		}
-		else if (slider->getName() == processor.delayTimeParamName)
-		{
-			text += "s";
 		}
 
 		DisplayComponent::setDisplayText(text);
@@ -81,7 +79,7 @@ public:
 private:
 	//==============================================================================
 
-	DelayAudioProcessor& processor;
+	DistortionAudioProcessor& processor;
 
 	enum
 	{
@@ -124,10 +122,10 @@ private:
 	TextButton savePresetButton;
 	TextButton aboutButton;
 
-	const int numKnobs{ 4 };
+	const int numKnobs{ 3 };
 	
 	const int pluginWidth = 300;
-	const int pluginHeight = 100;
+	const int pluginHeight = 120;
 	const int border = 10;
 	const int margin = 5;
 	const int headerHeight = 20;
@@ -149,17 +147,17 @@ private:
 	Rectangle<int> aboutButtonRect;
 	Rectangle<int> headerDisplayRect;
 	Rectangle<int> headerRightRect;
-	
-	Rectangle<int> gainKnobRect;
-	Rectangle<int> gainKnobLabelRect;
-	Rectangle<int> delayTimeKnobRect;
-	Rectangle<int> delayTimeKnobLabelRect;
-	Rectangle<int> feedbackKnobRect;
-	Rectangle<int> feedbackKnobLabelRect;
-	Rectangle<int> mixKnobRect;
-	Rectangle<int> mixKnobLabelRect;
 
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (DelayAudioProcessorEditor)
+	Rectangle<int> distortionTypeLabelRect;
+	Rectangle<int> distortionTypeSelectorRect;
+	Rectangle<int> inputGainKnobRect;
+	Rectangle<int> inputGainKnobLabelRect;
+	Rectangle<int> outputGainKnobRect;
+	Rectangle<int> outputGainKnobLabelRect;
+	Rectangle<int> toneKnobRect;
+	Rectangle<int> toneKnobLabelRect;
+
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (DistortionAudioProcessorEditor)
 };
 
 //==============================================================================
