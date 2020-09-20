@@ -1,26 +1,6 @@
 /*
-  ==============================================================================
-
-    This code is based on the contents of the book: "Audio Effects: Theory,
-    Implementation and Application" by Joshua D. Reiss and Andrew P. McPherson.
-
-    Code by Juan Gil <https://juangil.com/>.
-    Copyright (C) 2017-2019 Juan Gil.
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program. If not, see <https://www.gnu.org/licenses/>.
-
-  ==============================================================================
+ * Created On September 5th 2020.
+ * By Khalil Kabara.
 */
 
 #pragma once
@@ -29,7 +9,7 @@
 #include <cmath>
 
 #include "../JuceLibraryCode/JuceHeader.h"
-#include "PluginParameter.h"
+#include "../../Common/PluginParameter.h"
 
 //==============================================================================
 
@@ -46,13 +26,6 @@ public:
     void prepareToPlay (double sampleRate, int samplesPerBlock) override;
     void releaseResources() override;
     void processBlock (AudioSampleBuffer&, MidiBuffer&) override;
-
-    //==============================================================================
-
-
-
-
-
 
     //==============================================================================
 
@@ -89,13 +62,6 @@ public:
 
     //==============================================================================
 
-
-
-
-
-
-    //==============================================================================
-
     AudioSampleBuffer mixedDownInput;
     float xl;
     float yl;
@@ -121,6 +87,65 @@ public:
     PluginParameterLinSlider paramRelease;
     PluginParameterLinSlider paramMakeupGain;
     PluginParameterToggle paramBypass;
+	
+	const String modeParamName{ "mode" };
+	const String thresholdParamName{ "threshold" };
+	const String ratioParamName{ "ratio" };
+	const String attackParamName{ "attack" };
+	const String releaseParamName{ "release" };
+	const String makeupGainParamName{ "makeupGain" };
+	const String bypassParamName{ "bypass" };
+
+	const String allowedFileFormat = "*.wce";
+	const String presetExtension = ".wce";
+
+	void savePreset()
+	{
+		const auto state = parameters.valueTreeState.copyState();
+		const std::unique_ptr<XmlElement> xml(state.createXml());
+
+		FileChooser fileChooser{ "Save Preset", File(), allowedFileFormat };
+		String url = "";
+
+		if (fileChooser.browseForFileToSave(true))
+			url = fileChooser.getResult().getFullPathName();
+		else return;
+
+		xml->writeTo(File(url));
+	}
+
+	void loadPreset()
+	{
+		File preset;
+		FileChooser fileChooser{ "Load Preset", File(), allowedFileFormat };
+
+		if (fileChooser.browseForFileToOpen())
+			preset = fileChooser.getResult();
+		else return;
+
+		const std::unique_ptr<XmlElement> xml(parseXML(preset));
+
+		parameters.valueTreeState.replaceState(ValueTree::fromXml(*xml));
+	}
+
+	void resetPlugin()
+	{
+		const ValueTree state = parameters.valueTreeState.copyState();
+		const std::unique_ptr<XmlElement> tempXml(state.createXml());
+
+		forEachXmlChildElementWithTagName(*tempXml, child, "PARAM")
+		{
+			const float defaultValue = parameters
+				.valueTreeState.getParameter(child->getStringAttribute("id"))->getDefaultValue();
+			const auto range = parameters.valueTreeState.getParameter(child->getStringAttribute("id"))->
+				getNormalisableRange();
+			const auto unRangedValue = jmap(defaultValue, range.start, range.end);
+			child->setAttribute("value", unRangedValue);
+		}
+
+		parameters.valueTreeState.replaceState(ValueTree::fromXml(*tempXml));
+	}
+
 
 private:
     //==============================================================================

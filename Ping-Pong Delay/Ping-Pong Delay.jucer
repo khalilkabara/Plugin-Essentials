@@ -3,7 +3,7 @@
 <JUCERPROJECT id="iO13zR" name="Ping Pong Delay" projectType="audioplug" companyName="Worq"
               companyWebsite="worq.com.ng" pluginFormats="buildStandalone,buildVST3"
               pluginCharacteristicsValue="pluginProducesMidiOut,pluginWantsMidiIn"
-              pluginManufacturerCode="JGIL" pluginCode="ppdl" displaySplashScreen="1"
+              pluginManufacturerCode="worq" pluginCode="wqpd" displaySplashScreen="1"
               jucerFormatVersion="1">
   <MAINGROUP id="DFclFd" name="Ping Pong Delay">
     <GROUP id="{C0200978-29EA-0C6B-3307-66F2F8B328DC}" name="Source">

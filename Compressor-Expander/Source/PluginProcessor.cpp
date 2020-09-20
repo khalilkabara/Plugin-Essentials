@@ -1,31 +1,10 @@
 /*
-  ==============================================================================
-
-    This code is based on the contents of the book: "Audio Effects: Theory,
-    Implementation and Application" by Joshua D. Reiss and Andrew P. McPherson.
-
-    Code by Juan Gil <https://juangil.com/>.
-    Copyright (C) 2017-2019 Juan Gil.
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program. If not, see <https://www.gnu.org/licenses/>.
-
-  ==============================================================================
+ * Created On September 5th 2020.
+ * By Khalil Kabara.
 */
 
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
-#include "PluginParameter.h"
 
 //==============================================================================
 
@@ -41,13 +20,13 @@ CompressorExpanderAudioProcessor::CompressorExpanderAudioProcessor():
                    ),
 #endif
     parameters (*this)
-    , paramMode (parameters, "Mode", {"Compressor / Limiter", "Expander / Noise gate"}, 1)
-    , paramThreshold (parameters, "Threshold", "dB", -60.0f, 0.0f, -24.0f)
-    , paramRatio (parameters, "Ratio", ":1", 1.0f, 100.0f, 50.0f)
-    , paramAttack (parameters, "Attack", "ms", 0.1f, 100.0f, 2.0f, [](float value){ return value * 0.001f; })
-    , paramRelease (parameters, "Release", "ms", 10.0f, 1000.0f, 300.0f, [](float value){ return value * 0.001f; })
-    , paramMakeupGain (parameters, "Makeup gain", "dB", -12.0f, 12.0f, 0.0f)
-    , paramBypass (parameters, "Bypass")
+    , paramMode (parameters, "mode", {"Compressor / Limiter", "Expander / Noise gate"}, 0)
+    , paramThreshold (parameters, "threshold", "dB", -60.0f, 0.0f, -6.0f)
+    , paramRatio (parameters, "ratio", ":1", 1.0f, 100.0f, 50.0f)
+    , paramAttack (parameters, "attack", "ms", 0.1f, 100.0f, 2.0f, [](float value){ return value * 0.001f; })
+    , paramRelease (parameters, "release", "ms", 10.0f, 1000.0f, 300.0f, [](float value){ return value * 0.001f; })
+    , paramMakeupGain (parameters, "makeupGain", "dB", -12.0f, 12.0f, 0.0f)
+    , paramBypass (parameters, "bypass")
 {
     parameters.valueTreeState.state = ValueTree (Identifier (getName().removeCharacters ("- ")));
 }
@@ -172,13 +151,6 @@ float CompressorExpanderAudioProcessor::calculateAttackOrRelease (float value)
     else
         return pow (inverseE, inverseSampleRate / value);
 }
-
-//==============================================================================
-
-
-
-
-
 
 //==============================================================================
 

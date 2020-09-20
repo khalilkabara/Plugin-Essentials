@@ -76,7 +76,13 @@ public:
 
 	void about(String text)
 	{
-		
+		ScopedPointer<AlertWindow> alertWindow = new AlertWindow("About", text, AlertWindow::NoIcon);
+		alertWindow->addButton("Close", 0);
+		alertWindow->setVisible(true);
+		alertWindow->setUsingNativeTitleBar(true);
+		// alertWindow->setColour(AlertWindow::backgroundColourId, Colours::lightslategrey);
+
+		int result = alertWindow->runModalLoop();
 	}
 	
 	const bool debugRects = false;

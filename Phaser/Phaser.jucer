@@ -3,8 +3,9 @@
 <JUCERPROJECT id="EAYWC5" name="Phaser" projectType="audioplug" useAppConfig="0"
               displaySplashScreen="1" jucerFormatVersion="1" companyName="Worq"
               companyWebsite="worq.com.ng" aaxIdentifier="ng.com.worq.phaser"
-              pluginCode="phsr" pluginName="Phaser" pluginDesc="Phaser Plugin"
-              pluginCharacteristicsValue="pluginProducesMidiOut,pluginWantsMidiIn">
+              pluginCode="wqph" pluginName="Phaser" pluginDesc="Phaser Plugin"
+              pluginCharacteristicsValue="pluginProducesMidiOut,pluginWantsMidiIn"
+              pluginManufacturerCode="worq">
   <MAINGROUP id="DKEKGU" name="Phaser">
     <GROUP id="{C8DF5903-E013-87F9-A819-DDA908ED1C5E}" name="Source">
       <GROUP id="{82D76D4A-DDF2-BE1F-0FC4-7A6C0C29A57D}" name="Common">
