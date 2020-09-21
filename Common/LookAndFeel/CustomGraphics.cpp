@@ -66,68 +66,68 @@ void CustomGraphics::drawButtonBackground(Graphics& g, Button& button, const Col
 	LookAndFeel_V4::drawButtonBackground(g, button, backgroundColour, isMouseOverButton, isButtonDown);
 }
 
-
-void CustomGraphics::drawRotarySlider(Graphics& g, int x, int y, int width, int height,
-                                      float sliderPosProportional, float rotaryStartAngle, float rotaryEndAngle,
-                                      Slider& slider)
-{
-	auto* image = &knobImage;
-
-	if (IsOfType("switch", slider))
-	{
-		image = &switchKnobImage;
-		isSwitch = true;
-	}
-	else isSwitch = false;
-
-	if (IsOfType("bipolar", slider)) isBipolar = true;
-	// else isBipolar = false;
-
-	if (IsOfType("effect", slider)) isEffect = true;
-	// else isBipolar = isEffect;
-
-	if (IsOfType("bipolarEffect", slider)) isBipolarEffect = true;
-	// else isBipolarEffect = false;
-
-	const auto rangeScale = isSwitch ? 0.5f : 1.0f;
-	const auto range = rotaryEndAngle - rotaryStartAngle;
-	const auto angle = rotaryStartAngle + range * sliderPosProportional * rangeScale + range * (1 - rangeScale) / 2;
-
-	if (width > height)
-	{
-		x = width / 2 - height / 2;
-		width = height;
-	}
-	if (height > width)
-	{
-		y = height / 2 - width / 2;
-		height = width;
-	}
-
-	DrawKnobImage(g, *image, x, y, width, height, angle);
-
-	if (isSwitch) return;
-
-	Path p;
-	if (isEffect || isBipolarEffect) g.setColour(effectKnobPathColor);
-	else g.setColour(knobPathColor);
-
-	if (IsOfType("bipolar", slider))
-	{
-		// const String str = isBipolar ? "isBipolar" : "!isBipolar";
-		// g.setColour(effectKnobPathColor);
-		p.addArc(x, y, width, height, 2 * juce::MathConstants<float>::pi, angle, true);
-	}
-	else
-	{
-		// g.setColour(knobPathColor);
-		p.addArc(x, y, width, height, rotaryStartAngle, angle, true);
-	}
-
-	p.applyTransform(AffineTransform::scale(0.85, 0.85, x + width / 2, y + height / 2));
-	g.strokePath(p, PathStrokeType(3));
-
-}
+//
+// void CustomGraphics::drawRotarySlider(Graphics& g, int x, int y, int width, int height,
+//                                       float sliderPosProportional, float rotaryStartAngle, float rotaryEndAngle,
+//                                       Slider& slider)
+// {
+// 	auto* image = &knobImage;
+//
+// 	if (IsOfType("switch", slider))
+// 	{
+// 		image = &switchKnobImage;
+// 		isSwitch = true;
+// 	}
+// 	else isSwitch = false;
+//
+// 	if (IsOfType("bipolar", slider)) isBipolar = true;
+// 	// else isBipolar = false;
+//
+// 	if (IsOfType("effect", slider)) isEffect = true;
+// 	// else isBipolar = isEffect;
+//
+// 	if (IsOfType("bipolarEffect", slider)) isBipolarEffect = true;
+// 	// else isBipolarEffect = false;
+//
+// 	const auto rangeScale = isSwitch ? 0.5f : 1.0f;
+// 	const auto range = rotaryEndAngle - rotaryStartAngle;
+// 	const auto angle = rotaryStartAngle + range * sliderPosProportional * rangeScale + range * (1 - rangeScale) / 2;
+//
+// 	if (width > height)
+// 	{
+// 		x = width / 2 - height / 2;
+// 		width = height;
+// 	}
+// 	if (height > width)
+// 	{
+// 		y = height / 2 - width / 2;
+// 		height = width;
+// 	}
+//
+// 	DrawKnobImage(g, *image, x, y, width, height, angle);
+//
+// 	if (isSwitch) return;
+//
+// 	Path p;
+// 	if (isEffect || isBipolarEffect) g.setColour(effectKnobPathColor);
+// 	else g.setColour(knobPathColor);
+//
+// 	if (IsOfType("bipolar", slider))
+// 	{
+// 		// const String str = isBipolar ? "isBipolar" : "!isBipolar";
+// 		// g.setColour(effectKnobPathColor);
+// 		p.addArc(x, y, width, height, 2 * juce::MathConstants<float>::pi, angle, true);
+// 	}
+// 	else
+// 	{
+// 		// g.setColour(knobPathColor);
+// 		p.addArc(x, y, width, height, rotaryStartAngle, angle, true);
+// 	}
+//
+// 	p.applyTransform(AffineTransform::scale(0.85, 0.85, x + width / 2, y + height / 2));
+// 	g.strokePath(p, PathStrokeType(3));
+//
+// }
 
 
 void CustomGraphics::DrawKnobImage(Graphics& g, Image& img, int x, int y, int width, int height, float angle) const
@@ -474,115 +474,115 @@ void CustomGraphics::fillSplitVerticalRect(Graphics& g, float y1, float y2, floa
 	g.fillRect(x2, y, width - x2, height);
 }
 
-//
-// void CustomGraphics::drawRotarySlider(Graphics& g, int x, int y, int width, int height,
-// 	float slider_t, float start_angle, float end_angle,
-// 	Slider& slider)
-// {
-// 	static const float stroke_percent = 0.1f;
-//
-// 	float full_radius = std::min(width / 2.0f, height / 2.0f);
-// 	float stroke_width = 2.0f * full_radius * stroke_percent;
-// 	float knob_radius = 0.63f * full_radius;
-// 	float small_outer_radius = knob_radius + stroke_width / 6.0f;
-// 	PathStrokeType outer_stroke =
-// 		PathStrokeType(stroke_width, PathStrokeType::beveled, PathStrokeType::butt);
-//
-// 	float current_angle = start_angle + slider_t * (end_angle - start_angle);
-// 	float end_x = width / 2 + 0.8f * knob_radius * sin(current_angle);
-// 	float end_y = height / 2 - 0.8f * knob_radius * cos(current_angle);
-//
-// 	if (slider.getInterval() == 1)
-// 	{
-// 		static const float TEXT_W_PERCENT = 0.35f;
-// 		Rectangle<float> text_bounds(1.0f + width * (1.0f - TEXT_W_PERCENT) / 2.0f,
-// 			0.5f * height, width * TEXT_W_PERCENT, 0.5f * height);
-//
-// 		g.setColour(Colour(0xff464646));
-// 		g.fillRoundedRectangle(text_bounds, 2.0f);
-//
-// 		g.setColour(Colour(0xff999999));
-// 		g.drawFittedText(String(slider.getValue()), text_bounds.getSmallestIntegerContainer(),
-// 			Justification::horizontallyCentred | Justification::bottom, 1);
-// 	}
-//
-// 	Path active_section;
-// 	bool bipolar = false;
-// 	const bool active = true;
-//
-// 	if (IsOfType("switch", slider))
-// 	{
-// 		isSwitch = true;
-// 	}
-// 	else isSwitch = false;
-//
-// 	if (IsOfType("bipolar", slider))
-// 	{
-// 		isBipolar = true;
-// 		bipolar = true;
-// 	}
-// 	else isBipolar = false;
-//
-// 	if (IsOfType("effect", slider)) isEffect = true;
-// 	else isBipolar = isEffect;
-//
-// 	if (IsOfType("bipolarEffect", slider)) isBipolarEffect = true;
-// 	else isBipolarEffect = false;
-//
-// 	Path rail;
-// 	// rail.addCentredArc(full_radius, full_radius, small_outer_radius, small_outer_radius,
-// 	//                    0.0f, start_angle, end_angle, true);
-//
-// 	rail.addCentredArc(width / 2, height / 2, small_outer_radius, small_outer_radius,
-// 		0.0f, start_angle, end_angle, true);
-//
-// 	if (active)
-// 		g.setColour(Colour(0xff4a4a4a));
-// 	else
-// 		g.setColour(Colour(0xff333333));
-//
-// 	g.strokePath(rail, outer_stroke);
-//
-// 	if (bipolar)
-// 	{
-// 		active_section.addCentredArc(width / 2, height / 2, small_outer_radius, small_outer_radius,
-// 			0.0f, 0.0f, current_angle - 2.0f * juce::MathConstants<float>::pi, true);
-// 	}
-// 	else
-// 	{
-// 		active_section.addCentredArc(width / 2, height / 2, small_outer_radius, small_outer_radius,
-// 			0.0f, start_angle, current_angle, true);
-// 	}
-//
-// 	if (active)
-// 		g.setColour(Colour(0xffffab00));
-// 	else
-// 		g.setColour(Colour(0xff555555));
-//
-// 	g.strokePath(active_section, outer_stroke);
-//
-// 	if (active)
-// 		g.setColour(Colour(0xff000000));
-// 	else
-// 		g.setColour(Colour(0xff444444));
-//
-// 	g.fillEllipse(width / 2 - knob_radius,
-// 		height / 2 - knob_radius,
-// 		2.0f * knob_radius,
-// 		2.0f * knob_radius);
-//
-// 	if (active)
-// 		g.setColour(Colour(0xff666666));
-// 	else
-// 		g.setColour(Colour(0xff555555));
-//
-// 	// g.setColour(Colours::red);
-// 	g.drawEllipse(width / 2 - knob_radius + stroke_width / 4.0f + 0.5f,
-// 		height / 2 - knob_radius + stroke_width / 4.0f + 0.5f,
-// 		2.0f * knob_radius - stroke_width / 2.0f - 1.0f,
-// 		2.0f * knob_radius - stroke_width / 2.0f - 1.0f, 1.5f);
-//
-// 	g.setColour(Colour(0xff999999));
-// 	g.drawLine(width / 2, height / 2, end_x, end_y, 1.0f);
-// }
+
+void CustomGraphics::drawRotarySlider(Graphics& g, int x, int y, int width, int height,
+	float slider_t, float start_angle, float end_angle,
+	Slider& slider)
+{
+	static const float stroke_percent = 0.1f;
+
+	float full_radius = std::min(width / 2.0f, height / 2.0f);
+	float stroke_width = 2.0f * full_radius * stroke_percent;
+	float knob_radius = 0.63f * full_radius;
+	float small_outer_radius = knob_radius + stroke_width / 6.0f;
+	PathStrokeType outer_stroke =
+		PathStrokeType(stroke_width, PathStrokeType::beveled, PathStrokeType::butt);
+
+	float current_angle = start_angle + slider_t * (end_angle - start_angle);
+	float end_x = width / 2 + 0.8f * knob_radius * sin(current_angle);
+	float end_y = height / 2 - 0.8f * knob_radius * cos(current_angle);
+
+	if (slider.getInterval() == 1)
+	{
+		static const float TEXT_W_PERCENT = 0.35f;
+		Rectangle<float> text_bounds(1.0f + width * (1.0f - TEXT_W_PERCENT) / 2.0f,
+			0.5f * height, width * TEXT_W_PERCENT, 0.5f * height);
+
+		g.setColour(Colour(0xff464646));
+		g.fillRoundedRectangle(text_bounds, 2.0f);
+
+		g.setColour(Colour(0xff999999));
+		g.drawFittedText(String(slider.getValue()), text_bounds.getSmallestIntegerContainer(),
+			Justification::horizontallyCentred | Justification::bottom, 1);
+	}
+
+	Path active_section;
+	bool bipolar = false;
+	const bool active = true;
+
+	if (IsOfType("switch", slider))
+	{
+		isSwitch = true;
+	}
+	else isSwitch = false;
+
+	if (IsOfType("bipolar", slider))
+	{
+		isBipolar = true;
+		bipolar = true;
+	}
+	else isBipolar = false;
+
+	if (IsOfType("effect", slider)) isEffect = true;
+	else isBipolar = isEffect;
+
+	if (IsOfType("bipolarEffect", slider)) isBipolarEffect = true;
+	else isBipolarEffect = false;
+
+	Path rail;
+	// rail.addCentredArc(full_radius, full_radius, small_outer_radius, small_outer_radius,
+	//                    0.0f, start_angle, end_angle, true);
+
+	rail.addCentredArc(width / 2, height / 2, small_outer_radius, small_outer_radius,
+		0.0f, start_angle, end_angle, true);
+
+	if (active)
+		g.setColour(Colour(0xff4a4a4a));
+	else
+		g.setColour(Colour(0xff333333));
+
+	g.strokePath(rail, outer_stroke);
+
+	if (bipolar)
+	{
+		active_section.addCentredArc(width / 2, height / 2, small_outer_radius, small_outer_radius,
+			0.0f, 0.0f, current_angle - 2.0f * juce::MathConstants<float>::pi, true);
+	}
+	else
+	{
+		active_section.addCentredArc(width / 2, height / 2, small_outer_radius, small_outer_radius,
+			0.0f, start_angle, current_angle, true);
+	}
+
+	if (active)
+		g.setColour(Colour(0xffffab00));
+	else
+		g.setColour(Colour(0xff555555));
+
+	g.strokePath(active_section, outer_stroke);
+
+	if (active)
+		g.setColour(Colour(0xff000000));
+	else
+		g.setColour(Colour(0xff444444));
+
+	g.fillEllipse(width / 2 - knob_radius,
+		height / 2 - knob_radius,
+		2.0f * knob_radius,
+		2.0f * knob_radius);
+
+	if (active)
+		g.setColour(Colour(0xff666666));
+	else
+		g.setColour(Colour(0xff555555));
+
+	// g.setColour(Colours::red);
+	g.drawEllipse(width / 2 - knob_radius + stroke_width / 4.0f + 0.5f,
+		height / 2 - knob_radius + stroke_width / 4.0f + 0.5f,
+		2.0f * knob_radius - stroke_width / 2.0f - 1.0f,
+		2.0f * knob_radius - stroke_width / 2.0f - 1.0f, 1.5f);
+
+	g.setColour(Colour(0xff999999));
+	g.drawLine(width / 2, height / 2, end_x, end_y, 1.0f);
+}
 

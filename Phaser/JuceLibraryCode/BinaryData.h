@@ -8,6 +8,9 @@
 
 namespace BinaryData
 {
+    extern const char*   phaserBackground_png;
+    const int            phaserBackground_pngSize = 65738;
+
     extern const char*   background_png;
     const int            background_pngSize = 65490;
 
@@ -16,9 +19,6 @@ namespace BinaryData
 
     extern const char*   flangerBackground_png;
     const int            flangerBackground_pngSize = 65490;
-
-    extern const char*   phaserBackground_png;
-    const int            phaserBackground_pngSize = 65490;
 
     extern const char*   pingpongBackground_png;
     const int            pingpongBackground_pngSize = 65490;
@@ -30,7 +30,7 @@ namespace BinaryData
     const int            background_png2Size = 65490;
 
     extern const char*   combo_box_png;
-    const int            combo_box_pngSize = 12243;
+    const int            combo_box_pngSize = 8896;
 
     extern const char*   display_area_png;
     const int            display_area_pngSize = 8896;

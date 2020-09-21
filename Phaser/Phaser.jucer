@@ -23,13 +23,13 @@
         </GROUP>
         <GROUP id="{24C97701-AC4F-12DF-3B09-99914D34A873}" name="Resources">
           <GROUP id="{B3FEFF6A-D329-BCEE-BDAE-BE06721FB46E}" name="bg">
+            <FILE id="Wje8eu" name="phaserBackground.png" compile="0" resource="1"
+                  file="../Common/Resources/bg/phaserBackground.png"/>
             <FILE id="j5MBSJ" name="background.png" compile="0" resource="1" file="../Common/Resources/bg/background.png"/>
             <FILE id="omcvim" name="chorusBackground .png" compile="0" resource="1"
                   file="../Common/Resources/bg/chorusBackground .png"/>
             <FILE id="vsM5HO" name="flangerBackground.png" compile="0" resource="1"
                   file="../Common/Resources/bg/flangerBackground.png"/>
-            <FILE id="bDh0Se" name="phaserBackground.png" compile="0" resource="1"
-                  file="../Common/Resources/bg/phaserBackground.png"/>
             <FILE id="Q9a2RE" name="pingpongBackground.png" compile="0" resource="1"
                   file="../Common/Resources/bg/pingpongBackground.png"/>
             <FILE id="LkzJX1" name="reverbBackground.png" compile="0" resource="1"

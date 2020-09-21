@@ -239,12 +239,6 @@ void PhaserAudioProcessorEditor::defineRects()
 		mainArea.getWidth() / 3,
 		remainingHeight);
 
-	// aboutButtonRect = Rectangle<int>(
-	// 	mainArea.getX() + mainArea.getWidth() - aboutButtonWidth,
-	// 	lfoRect.getY() + lfoRect.getHeight() + margin,
-	// 	aboutButtonWidth,
-	// 	headerDisplayRect.getHeight());
-
 	remainingHeight -= lfoRect.getHeight() + margin;
 
 	controlsRect = Rectangle<int>(
@@ -310,9 +304,9 @@ void PhaserAudioProcessorEditor::defineRects()
 		numFiltersRect.getHeight());
 
 	numFiltersSelectorRect = Rectangle<int>(
-		numFiltersLabelRect.getX() + numFiltersLabelRect.getWidth(),
+		numFiltersLabelRect.getX() + numFiltersLabelRect.getWidth() + margin,
 		numFiltersLabelRect.getY(),
-		numFiltersRect.getWidth() * 2 / 3,
+		numFiltersRect.getWidth() * 2 / 3 - margin * 1.5,
 		numFiltersLabelRect.getHeight());
 
 	//----------------------------------
@@ -331,7 +325,7 @@ void PhaserAudioProcessorEditor::defineRects()
 		lfoTitleRect.getX() + margin,
 		lfoTitleRect.getY() + lfoTitleRect.getHeight() + margin,
 		lfoRect.getWidth() / 3 - margin,
-		remainingHeight / 4);
+		remainingHeight / 6);
 
 	remainingHeight -= lfoWaveSelectorTitleRect.getHeight() + margin;
 

@@ -59,7 +59,7 @@ private:
 	Image comboBoxImage;
 
 	Colour toggleFillColor = juce::Colours::red;
-	Colour knobPathColor = juce::Colours::cyan;
+	Colour knobPathColor = juce::Colours::red;
 	Colour effectKnobPathColor = juce::Colours::blueviolet;
 
 	float linear_rail_width = 40;
