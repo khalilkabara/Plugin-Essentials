@@ -8,8 +8,7 @@
 #include <JuceHeader.h>
 
 //==============================================================================
-/**
-*/
+
 class ReverbAudioProcessor  : public juce::AudioProcessor
 {
 public:

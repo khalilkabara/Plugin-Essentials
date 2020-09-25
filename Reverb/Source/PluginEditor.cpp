@@ -116,7 +116,7 @@ void ReverbAudioProcessorEditor::paint (juce::Graphics& g)
 
 	g.drawFittedText("Bypass", bypassToggleLabelRect, Justification::centred, 1);
 	g.drawFittedText("Damping", dampingKnobLabelRect, Justification::centred, 1);
-	g.drawFittedText("Reverb Size", roomSizeKnobLabelRect, Justification::centred, 1);
+	g.drawFittedText("Room Size", roomSizeKnobLabelRect, Justification::centred, 1);
 	g.drawFittedText("Width", widthKnobLabelRect, Justification::centred, 1);
 	g.drawFittedText("Dry Level", dryLevelKnobLabelRect, Justification::centred, 1);
 	g.drawFittedText("Wet Level", wetLevelKnobLabelRect, Justification::centred, 1);
@@ -294,7 +294,7 @@ void ReverbAudioProcessorEditor::defineComponents()
 	dampingKnob.setTextBoxStyle(Slider::NoTextBox, false, 100, 30);
 	dampingKnob.setBounds(dampingKnobRect);
 	dampingKnob.setSkewFactorFromMidPoint(0.3f);
-	dampingKnob.setName(processor.dryLevelParamName);
+	dampingKnob.setName(processor.dampingParamName);
 	dampingKnob.setVisible(true);
 	dampingKnob.addListener(this);
 	addAndMakeVisible(dampingKnob);

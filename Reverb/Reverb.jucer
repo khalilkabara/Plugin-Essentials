@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="kyVM0A" name="Reverb" projectType="audioplug" displaySplashScreen="1"
+<JUCERPROJECT id="kyVM0A" name="Room Reverb" projectType="audioplug" displaySplashScreen="1"
               jucerFormatVersion="1" companyName="Worq" companyWebsite="worq.com.ng"
-              pluginFormats="buildAU,buildStandalone,buildVST3" pluginCharacteristicsValue="pluginProducesMidiOut,pluginWantsMidiIn"
+              pluginFormats="buildAU,buildStandalone,buildVST,buildVST3" pluginCharacteristicsValue="pluginProducesMidiOut,pluginWantsMidiIn"
               pluginManufacturerCode="worq" pluginCode="wqrv">
-  <MAINGROUP id="yFC6D5" name="Reverb">
+  <MAINGROUP id="yFC6D5" name="Room Reverb">
     <GROUP id="{064F5C78-97A4-CC70-214B-F0FA5F10D7D8}" name="Source">
       <GROUP id="{D088F4F8-927A-F646-4717-875F89C7485B}" name="Common">
         <GROUP id="{4E2B6C15-6A86-30EC-5304-E558BD1586F8}" name="LookAndFeel">
@@ -32,12 +32,8 @@
                   file="../Common/Resources/bg/pingpongBackground.png"/>
             <FILE id="BrP6dS" name="reverbBackground.png" compile="0" resource="1"
                   file="../Common/Resources/bg/reverbBackground.png"/>
-            <FILE id="evwUiR" name="tremoloBackground.png" compile="0" resource="1"
-                  file="../Common/Resources/bg/tremoloBackground.png"/>
             <FILE id="bzwVES" name="utilityBackground.png" compile="0" resource="1"
                   file="../Common/Resources/bg/utilityBackground.png"/>
-            <FILE id="B1G2kc" name="wahWahBackground.png" compile="0" resource="1"
-                  file="../Common/Resources/bg/wahWahBackground.png"/>
           </GROUP>
           <FILE id="anplhu" name="background.png" compile="0" resource="1" file="../Common/Resources/background.png"/>
           <FILE id="wLDYpK" name="combo_box.png" compile="0" resource="1" file="../Common/Resources/combo_box.png"/>

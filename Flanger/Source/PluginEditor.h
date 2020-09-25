@@ -134,7 +134,7 @@ private:
 	const int headerHeight = 20;
 	const int labelHeight = 15;
 	const int aboutButtonWidth = 40;
-	const String aboutText{ "Lorem Ipsum" };
+	const String aboutText{ "Flanger" };
 
 	int remainingHeight{0};
 

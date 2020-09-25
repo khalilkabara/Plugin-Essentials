@@ -62,13 +62,7 @@ public:
 		}
 		auto val = 0.0f;
 		String text = "";
-		// if (slider == &dampingKnob)
-		// {
-		// 	text += slider->getName() + ": ";
-		// 	if (slider->getValue() == 0.0f) text += "C";
-		// 	else if(slider->getValue() > 0) text += String(slider->getValue(), 2) + "R";
-		// 	else  text += String(abs(slider->getValue()), 2) + "L";
-		// } else 
+		
 		if(slider == &bypassToggleSlider)
 		{
 			text += slider->getName() + ": ";
@@ -108,7 +102,7 @@ private:
 	const int labelHeight = 15;
 	const int aboutButtonWidth = 40;
 
-	const String aboutText = { "Reverb plugin \nBy Worq Studios \nwww.worq.com.ng" };
+	const String aboutText = { "Room Reverb" };
 
 	int remainingHeight{ 0 };
 

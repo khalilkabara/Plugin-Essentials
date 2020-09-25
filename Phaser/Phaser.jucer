@@ -5,7 +5,7 @@
               companyWebsite="worq.com.ng" aaxIdentifier="ng.com.worq.phaser"
               pluginCode="wqph" pluginName="Phaser" pluginDesc="Phaser Plugin"
               pluginCharacteristicsValue="pluginProducesMidiOut,pluginWantsMidiIn"
-              pluginManufacturerCode="worq">
+              pluginManufacturerCode="worq" pluginFormats="buildAU,buildStandalone,buildVST,buildVST3">
   <MAINGROUP id="DKEKGU" name="Phaser">
     <GROUP id="{C8DF5903-E013-87F9-A819-DDA908ED1C5E}" name="Source">
       <GROUP id="{82D76D4A-DDF2-BE1F-0FC4-7A6C0C29A57D}" name="Common">

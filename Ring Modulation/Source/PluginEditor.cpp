@@ -157,7 +157,7 @@ void RingModulationAudioProcessorEditor::paint(Graphics& g)
 	//--------------------><
 
 	g.drawFittedText("Carrier Wave", waveformSelectorLabelRect, Justification::centred, 1);
-	g.drawFittedText("Carrier Frequency", frequencyKnobLabelRect, Justification::centred, 1);
+	g.drawFittedText("Frequency", frequencyKnobLabelRect, Justification::centred, 1);
 	g.drawFittedText("Depth", depthKnobLabelRect, Justification::centred, 1);
 	g.drawFittedText("Gain", gainKnobLabelRect, Justification::centred, 1);
 }
@@ -238,12 +238,12 @@ void RingModulationAudioProcessorEditor::defineRects()
 		mainArea.getX(),
 		mainArea.getHeight() - remainingHeight,
 		mainArea.getWidth() / 3,
-		mainArea.getHeight() / 5);
+		mainArea.getHeight() / 6);
 
 	waveformSelectorRect = Rectangle<int>(
-		waveformSelectorLabelRect.getX() + waveformSelectorLabelRect.getWidth(),
+		waveformSelectorLabelRect.getX() + waveformSelectorLabelRect.getWidth() + margin * 2,
 		waveformSelectorLabelRect.getY(),
-		mainArea.getWidth() * 2 / 3,
+		mainArea.getWidth() * 2 / 3 - margin - 1,
 		waveformSelectorLabelRect.getHeight());
 
 	remainingHeight -= waveformSelectorRect.getHeight() + margin;

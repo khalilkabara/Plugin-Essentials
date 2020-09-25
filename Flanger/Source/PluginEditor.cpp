@@ -238,7 +238,7 @@ void FlangerAudioProcessorEditor::defineRects()
 		mainArea.getX(),
 		numFiltersRect.getY() + numFiltersRect.getHeight() + margin,
 		mainArea.getWidth() / 3,
-		remainingHeight - labelHeight);
+		remainingHeight);
 
 	// aboutButtonRect = Rectangle<int>(
 	// 	lfoRect.getX() + lfoRect.getWidth() / 2 - aboutButtonWidth / 2,
@@ -279,28 +279,47 @@ void FlangerAudioProcessorEditor::defineRects()
 		headerDisplayRect.getHeight());
 
 	useStereoToggleLabelRect = Rectangle<int>(
-		headerRightRect.getX() + border,
+		headerRightRect.getX() + margin,
 		headerRightRect.getY(),
-		headerRightRect.getWidth() * 2 / 6,
+		headerRightRect.getWidth() / 4,
 		headerRightRect.getHeight());
 
 	useStereoToggleRect = Rectangle<int>(
-		useStereoToggleLabelRect.getX() + useStereoToggleLabelRect.getWidth(),
+		useStereoToggleLabelRect.getX() + useStereoToggleLabelRect.getWidth() + margin,
 		useStereoToggleLabelRect.getY(),
-		headerRightRect.getWidth() * 1/6,
-		useStereoToggleLabelRect.getHeight());
-
-	enableInvertedLabelRect = Rectangle<int> (
-		useStereoToggleRect.getX() + useStereoToggleRect.getWidth(),
-		headerDisplayRect.getY(),
 		useStereoToggleLabelRect.getWidth(),
 		useStereoToggleLabelRect.getHeight());
-	
-	enableInvertedToggleRect = Rectangle<int> (
-		enableInvertedLabelRect.getX() + enableInvertedLabelRect.getWidth(),
-		headerDisplayRect.getY(),
-		useStereoToggleRect.getWidth(),
+
+	aboutButtonRect = Rectangle<int>(
+		useStereoToggleRect.getX() + useStereoToggleRect.getWidth() + margin,
+		useStereoToggleRect.getY(),
+		headerRightRect.getWidth() / 2 - margin * 3,
 		useStereoToggleRect.getHeight());
+
+
+	// useStereoToggleLabelRect = Rectangle<int>(
+	// 	headerRightRect.getX() + border,
+	// 	headerRightRect.getY(),
+	// 	headerRightRect.getWidth() * 2 / 6,
+	// 	headerRightRect.getHeight());
+	//
+	// useStereoToggleRect = Rectangle<int>(
+	// 	useStereoToggleLabelRect.getX() + useStereoToggleLabelRect.getWidth(),
+	// 	useStereoToggleLabelRect.getY(),
+	// 	headerRightRect.getWidth() * 1/6,
+	// 	useStereoToggleLabelRect.getHeight());
+	//
+	// enableInvertedLabelRect = Rectangle<int> (
+	// 	useStereoToggleRect.getX() + useStereoToggleRect.getWidth(),
+	// 	headerDisplayRect.getY(),
+	// 	useStereoToggleLabelRect.getWidth(),
+	// 	useStereoToggleLabelRect.getHeight());
+	//
+	// enableInvertedToggleRect = Rectangle<int> (
+	// 	enableInvertedLabelRect.getX() + enableInvertedLabelRect.getWidth(),
+	// 	headerDisplayRect.getY(),
+	// 	useStereoToggleRect.getWidth(),
+	// 	useStereoToggleRect.getHeight());
 	
 	loadPresetButtonRect = Rectangle<int>(
 		headerLeftRect.getX(),
@@ -324,9 +343,9 @@ void FlangerAudioProcessorEditor::defineRects()
 		numFiltersRect.getHeight());
 
 	interpolationSelectorRect = Rectangle<int>(
-		interpolationLabelRect.getX() + interpolationLabelRect.getWidth(),
+		interpolationLabelRect.getX() + interpolationLabelRect.getWidth() + margin,
 		interpolationLabelRect.getY(),
-		numFiltersRect.getWidth() * 2 / 3,
+		numFiltersRect.getWidth() * 2 / 3 - margin * 1.5,
 		interpolationLabelRect.getHeight());
 
 	//----------------------------------
@@ -345,7 +364,7 @@ void FlangerAudioProcessorEditor::defineRects()
 		lfoTitleRect.getX() + margin,
 		lfoTitleRect.getY() + lfoTitleRect.getHeight() + margin,
 		lfoRect.getWidth() / 3 - margin,
-		remainingHeight / 4);
+		remainingHeight / 6);
 
 	remainingHeight -= lfoWaveSelectorTitleRect.getHeight() + margin;
 
@@ -412,6 +431,44 @@ void FlangerAudioProcessorEditor::defineRects()
 		widthKnobLabelRect.getY(),
 		widthKnobLabelRect.getWidth(),
 		widthKnobLabelRect.getHeight());
+
+	//////////////////////////////////
+
+	// enableInvertedLabelRect = Rectangle<int> (
+	// 	useStereoToggleRect.getX() + useStereoToggleRect.getWidth(),
+	// 	headerDisplayRect.getY(),
+	// 	useStereoToggleLabelRect.getWidth(),
+	// 	useStereoToggleLabelRect.getHeight());
+	//
+	// enableInvertedToggleRect = Rectangle<int> (
+	// 	enableInvertedLabelRect.getX() + enableInvertedLabelRect.getWidth(),
+	// 	headerDisplayRect.getY(),
+	// 	useStereoToggleRect.getWidth(),
+	// 	useStereoToggleRect.getHeight());
+	
+	// enableInvertedToggleRect = Rectangle<int>(
+	// 	delayKnobLabelRect.getX(),
+	// 	delayKnobLabelRect.getY() + delayKnobLabelRect.getHeight() + margin,
+	// 	delayKnobRect.getWidth(),
+	// 	delayKnobRect.getHeight());
+	//
+	// enableInvertedLabelRect = Rectangle<int>(
+	// 	enableInvertedToggleRect.getX(),
+	// 	enableInvertedToggleRect.getY() + enableInvertedToggleRect.getHeight() + margin,
+	// 	enableInvertedToggleRect.getWidth(),
+	// 	labelHeight);
+
+	depthKnobRect = Rectangle<int>(
+		controlsRect.getX() + margin,
+		controlsRect.getY() + controlsRect.getHeight() - remainingHeight,
+		controlsRect.getWidth() / 2 - margin * 1.5,
+		remainingHeight - (labelHeight + margin * 2));
+	
+	depthKnobLabelRect = Rectangle<int>(
+		depthKnobRect.getX(),
+		depthKnobRect.getY() + depthKnobRect.getHeight() + margin,
+		depthKnobRect.getWidth(),
+		labelHeight);
 
 	depthKnobRect = Rectangle<int>(
 		controlsRect.getX() + margin,

@@ -3,7 +3,6 @@
  * By Khalil Kabara.
 */
 
-
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
 

@@ -25,7 +25,7 @@ CompressorExpanderAudioProcessor::CompressorExpanderAudioProcessor():
     , paramRatio (parameters, "ratio", ":1", 1.0f, 100.0f, 50.0f)
     , paramAttack (parameters, "attack", "ms", 0.1f, 100.0f, 2.0f, [](float value){ return value * 0.001f; })
     , paramRelease (parameters, "release", "ms", 10.0f, 1000.0f, 300.0f, [](float value){ return value * 0.001f; })
-    , paramMakeupGain (parameters, "makeupGain", "dB", -12.0f, 12.0f, 0.0f)
+    , paramMakeupGain (parameters, "makeupGain", "dB", -24.0f, 24.0f, 0.0f)
     , paramBypass (parameters, "bypass")
 {
     parameters.valueTreeState.state = ValueTree (Identifier (getName().removeCharacters ("- ")));

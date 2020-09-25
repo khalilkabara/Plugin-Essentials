@@ -240,12 +240,12 @@ void DistortionAudioProcessorEditor::defineRects()
 		mainArea.getX(),
 		mainArea.getHeight() - remainingHeight,
 		mainArea.getWidth() / 3,
-		mainArea.getHeight() / 5);
+		mainArea.getHeight() / 6);
 
 	distortionTypeSelectorRect = Rectangle<int>(
-		distortionTypeLabelRect.getX() + distortionTypeLabelRect.getWidth(),
+		distortionTypeLabelRect.getX() + distortionTypeLabelRect.getWidth() + margin*2,
 		distortionTypeLabelRect.getY(),
-		mainArea.getWidth() * 2 / 3,
+		mainArea.getWidth() * 2 / 3 - margin - 1,
 		distortionTypeLabelRect.getHeight());
 
 	remainingHeight -= distortionTypeSelectorRect.getHeight() + margin;

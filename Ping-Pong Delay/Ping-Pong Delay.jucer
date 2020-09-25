@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <JUCERPROJECT id="iO13zR" name="Ping Pong Delay" projectType="audioplug" companyName="Worq"
-              companyWebsite="worq.com.ng" pluginFormats="buildStandalone,buildVST3"
+              companyWebsite="worq.com.ng" pluginFormats="buildAU,buildStandalone,buildVST,buildVST3"
               pluginCharacteristicsValue="pluginProducesMidiOut,pluginWantsMidiIn"
               pluginManufacturerCode="worq" pluginCode="wqpd" displaySplashScreen="1"
               jucerFormatVersion="1">

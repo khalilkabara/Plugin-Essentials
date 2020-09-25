@@ -12,34 +12,34 @@ namespace BinaryData
     const int            background_pngSize = 65490;
 
     extern const char*   chorusBackground__png;
-    const int            chorusBackground__pngSize = 65490;
+    const int            chorusBackground__pngSize = 68932;
 
     extern const char*   compressorExpanderBackground_png;
-    const int            compressorExpanderBackground_pngSize = 65490;
+    const int            compressorExpanderBackground_pngSize = 42172;
 
     extern const char*   delayBackground_png;
-    const int            delayBackground_pngSize = 65490;
+    const int            delayBackground_pngSize = 26294;
 
     extern const char*   distortionBackground_png;
-    const int            distortionBackground_pngSize = 65490;
+    const int            distortionBackground_pngSize = 36625;
 
     extern const char*   flangerBackground_png;
-    const int            flangerBackground_pngSize = 65490;
+    const int            flangerBackground_pngSize = 65738;
 
     extern const char*   phaserBackground_png;
-    const int            phaserBackground_pngSize = 65490;
+    const int            phaserBackground_pngSize = 65738;
 
     extern const char*   pingpongBackground_png;
-    const int            pingpongBackground_pngSize = 65490;
+    const int            pingpongBackground_pngSize = 28797;
 
     extern const char*   reverbBackground_png;
-    const int            reverbBackground_pngSize = 65490;
+    const int            reverbBackground_pngSize = 44860;
 
     extern const char*   background_png2;
     const int            background_png2Size = 65490;
 
     extern const char*   combo_box_png;
-    const int            combo_box_pngSize = 12243;
+    const int            combo_box_pngSize = 8896;
 
     extern const char*   display_area_png;
     const int            display_area_pngSize = 8896;

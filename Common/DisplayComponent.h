@@ -76,7 +76,8 @@ public:
 
 	void about(String text)
 	{
-		ScopedPointer<AlertWindow> alertWindow = new AlertWindow("About", text, AlertWindow::NoIcon);
+		std::unique_ptr<AlertWindow> alertWindow{ new AlertWindow("About", text + extraAboutText, AlertWindow::NoIcon) };
+		// ScopedPointer<AlertWindow> alertWindow = new AlertWindow("About", text, AlertWindow::NoIcon);
 		alertWindow->addButton("Close", 0);
 		alertWindow->setVisible(true);
 		alertWindow->setUsingNativeTitleBar(true);
@@ -103,5 +104,7 @@ private:
 
 	static bool pluginJustLoaded;
 
+	const String extraAboutText{ " Plugin \nWorq Studios \nwww.worq.com.ng \nworqmedia@gmail.com" };
+	
 	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(DisplayComponent)
 };

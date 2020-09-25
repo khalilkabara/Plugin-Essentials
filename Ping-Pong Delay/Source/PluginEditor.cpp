@@ -161,7 +161,7 @@ void PingPongDelayAudioProcessorEditor::paint(Graphics& g)
 	g.drawFittedText("Gain", gainKnobLabelRect, Justification::centred, 1);
 	g.drawFittedText("Balance", balanceKnobLabelRect, Justification::centred, 1);
 	g.drawFittedText("Feedback", feedbackKnobLabelRect, Justification::centred, 1);
-	g.drawFittedText("Delay Time", delayTimeKnobLabelRect, Justification::centred, 1);
+	g.drawFittedText("Time", delayTimeKnobLabelRect, Justification::centred, 1);
 	g.drawFittedText("Mix", mixKnobLabelRect, Justification::centred, 1);
 }
 

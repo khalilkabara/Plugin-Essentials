@@ -136,7 +136,7 @@ private:
 	const int margin = 5;
 	const int headerHeight = 20;
 	const int labelHeight = 15;
-	const String aboutText = {"Compressor/Expander plugin \nBy Worq Studios \nwww.worq.com.ng"};
+	const String aboutText = {"Compressor/Expander"};
 
 	int remainingHeight{0};
 

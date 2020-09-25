@@ -3,7 +3,7 @@
 <JUCERPROJECT id="moVvc4" name="Utility" projectType="audioplug" displaySplashScreen="1"
               jucerFormatVersion="1" companyName="Worq" companyEmail="worq.com.ng"
               pluginManufacturerCode="worq" pluginCode="wqut" pluginCharacteristicsValue="pluginProducesMidiOut,pluginWantsMidiIn"
-              pluginFormats="buildAU,buildStandalone,buildVST3">
+              pluginFormats="buildAU,buildStandalone,buildVST,buildVST3">
   <MAINGROUP id="ARYvIH" name="Utility">
     <GROUP id="{A800DB5B-556A-7BED-6D5E-8F4DD0439973}" name="Source">
       <GROUP id="{FAD8EEA6-3DB1-87C7-24F0-6C79EA1CF2FA}" name="Common">
@@ -32,12 +32,8 @@
                   file="../Common/Resources/bg/pingpongBackground.png"/>
             <FILE id="JPEDp3" name="reverbBackground.png" compile="0" resource="1"
                   file="../Common/Resources/bg/reverbBackground.png"/>
-            <FILE id="gejekY" name="tremoloBackground.png" compile="0" resource="1"
-                  file="../Common/Resources/bg/tremoloBackground.png"/>
             <FILE id="Efyd6b" name="utilityBackground.png" compile="0" resource="1"
                   file="../Common/Resources/bg/utilityBackground.png"/>
-            <FILE id="kMG598" name="wahWahBackground.png" compile="0" resource="1"
-                  file="../Common/Resources/bg/wahWahBackground.png"/>
           </GROUP>
           <FILE id="jIqCGS" name="background.png" compile="0" resource="1" file="../Common/Resources/background.png"/>
           <FILE id="UDRl4W" name="combo_box.png" compile="0" resource="1" file="../Common/Resources/combo_box.png"/>

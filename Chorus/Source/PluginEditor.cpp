@@ -333,7 +333,7 @@ void ChorusAudioProcessorEditor::defineRects()
 		lfoTitleRect.getX() + margin,
 		lfoTitleRect.getY() + lfoTitleRect.getHeight() + margin,
 		lfoRect.getWidth() / 3 - margin,
-		remainingHeight / 4);
+		remainingHeight / 6);
 
 	remainingHeight -= lfoWaveSelectorTitleRect.getHeight() + margin;
 

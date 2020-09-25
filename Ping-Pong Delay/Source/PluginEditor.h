@@ -147,7 +147,7 @@ private:
 	const int margin = 5;
 	const int headerHeight = 20;
 	const int labelHeight = 15;
-	const String aboutText { "Lorem Ipsum" };
+	const String aboutText { "Ping-Pong Delay" };
 
 	int remainingHeight{0};
 

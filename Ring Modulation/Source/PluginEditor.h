@@ -121,7 +121,7 @@ private: //=====================================================================
 	const int headerHeight = 20;
 	const int labelHeight = 15;
 
-	const String aboutText = { "Ring Modulation \nBy Worq Studios \nwww.worq.com.ng" };
+	const String aboutText = { "Ring Modulation" };
 
 	int remainingHeight{0};
 

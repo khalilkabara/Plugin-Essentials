@@ -72,7 +72,7 @@ void UtilityAudioProcessorEditor::paint (juce::Graphics& g)
 		getLocalBounds().getX(),
 		getLocalBounds().getY(),
 		getLocalBounds().getWidth(),
-		getLocalBounds().getHeight(), RectanglePlacement::fillDestination);
+		getLocalBounds().getHeight(), RectanglePlacement::stretchToFit);
 
 	if (displayComponent.debugRects)
 	{
@@ -185,13 +185,13 @@ void UtilityAudioProcessorEditor::defineRects()
 		labelHeight);
 
 	gainKnobRect = Rectangle<int>(
-		panKnobRect.getX() + panKnobRect.getWidth() + margin,
+		panKnobRect.getX() + panKnobRect.getWidth(),
 		panKnobRect.getY(),
 		panKnobRect.getWidth(),
 		panKnobRect.getHeight());
 
 	gainKnobLabelRect = Rectangle<int>(
-		panKnobLabelRect.getX() + panKnobLabelRect.getWidth() + margin,
+		panKnobLabelRect.getX() + panKnobLabelRect.getWidth(),
 		panKnobLabelRect.getY(),
 		panKnobLabelRect.getWidth(),
 		panKnobLabelRect.getHeight());

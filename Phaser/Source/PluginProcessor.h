@@ -51,7 +51,7 @@ public:
 		"Sine",
 		"Triangle",
 		"Square",
-		"Sawtooth"
+		"Saw"
 	};
 
 	enum waveformIndex {
@@ -115,7 +115,7 @@ public:
 	const String SAVED_PARAMS_NAME{ "savedParams" };
 
 	const String numFiltersParamName{ "numFilters" };
-	const String lfoWaveformParamName{ "lfoWaveform" };
+	const String lfoWaveformParamName{ "lfoWave" };
 	const String useStereoParamName{ "enableStereo" };
 	const String depthParamName{ "depth" };
 	const String feedbackParamName{ "feedback" };

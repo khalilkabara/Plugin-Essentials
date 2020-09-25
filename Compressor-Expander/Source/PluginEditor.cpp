@@ -166,7 +166,7 @@ void CompressorExpanderAudioProcessorEditor::paint(Graphics& g)
 	g.drawFittedText("Ratio", ratioKnobLabelRect, Justification::centred, 1);
 	g.drawFittedText("Attack", attackKnobLabelRect, Justification::centred, 1);
 	g.drawFittedText("Release", releaseKnobLabelRect, Justification::centred, 1);
-	g.drawFittedText("Makeup Gain", makeupGainKnobLabelRect, Justification::centred, 1);
+	g.drawFittedText("Makeup", makeupGainKnobLabelRect, Justification::centred, 1);
 }
 
 void CompressorExpanderAudioProcessorEditor::resized()
@@ -209,7 +209,7 @@ void CompressorExpanderAudioProcessorEditor::defineRects()
 
 	topSelectorsRect = Rectangle<int>(
 		headerRect.getX(),
-		headerRect.getY() + headerRect.getHeight() + margin,
+		headerRect.getY() + headerRect.getHeight() + margin - 2,
 		headerRect.getWidth(),
 		remainingHeight / 5);
 
@@ -252,9 +252,9 @@ void CompressorExpanderAudioProcessorEditor::defineRects()
 		bypassToggleRect.getHeight());
 
 	loadPresetButtonRect = Rectangle<int>(
-		headerLeftRect.getX(),
+		headerLeftRect.getX() + margin,
 		headerLeftRect.getY(),
-		headerLeftRect.getWidth() / 2 - margin,
+		headerLeftRect.getWidth() / 2 - margin * 1.5,
 		headerLeftRect.getHeight());
 
 	savePresetButtonRect = Rectangle<int>(
@@ -274,7 +274,7 @@ void CompressorExpanderAudioProcessorEditor::defineRects()
 		topSelectorsRect.getHeight());
 
 	modeSelectorRect = Rectangle<int>(
-		modeSelectorLabelRect.getX() + modeSelectorLabelRect.getWidth(),
+		modeSelectorLabelRect.getX() + modeSelectorLabelRect.getWidth() + margin/2,
 		modeSelectorLabelRect.getY(),
 		topSelectorsRect.getWidth() * 2 / 3,
 		modeSelectorLabelRect.getHeight());

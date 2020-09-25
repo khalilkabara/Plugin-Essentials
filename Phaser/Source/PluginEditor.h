@@ -130,7 +130,7 @@ private:
 	const int headerHeight = 20;
 	const int labelHeight = 15;
 	const int aboutButtonWidth = 40;
-	const String aboutText{  "Phaser plugin \nBy Worq Studios \nwww.worq.com.ng"  };
+	const String aboutText{  "Phaser"  };
 
 	int remainingHeight{ 0 };
 

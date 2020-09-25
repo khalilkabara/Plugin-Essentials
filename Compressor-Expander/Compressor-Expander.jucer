@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <JUCERPROJECT id="iO13zR" name="Compressor-Expander" projectType="audioplug"
-              companyName="Worq" pluginFormats="buildStandalone,buildVST3"
+              companyName="Worq" pluginFormats="buildAU,buildStandalone,buildVST,buildVST3"
               pluginCharacteristicsValue="pluginProducesMidiOut,pluginWantsMidiIn"
               companyWebsite="worq.com.ng" displaySplashScreen="1" pluginManufacturerCode="worq"
               pluginCode="wqce" pluginManufacturer="Worq" jucerFormatVersion="1">

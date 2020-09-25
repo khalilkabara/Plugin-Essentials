@@ -15,16 +15,16 @@ namespace BinaryData
     const int            background_pngSize = 65490;
 
     extern const char*   chorusBackground__png;
-    const int            chorusBackground__pngSize = 65490;
+    const int            chorusBackground__pngSize = 68932;
 
     extern const char*   flangerBackground_png;
-    const int            flangerBackground_pngSize = 65490;
+    const int            flangerBackground_pngSize = 65738;
 
     extern const char*   pingpongBackground_png;
-    const int            pingpongBackground_pngSize = 65490;
+    const int            pingpongBackground_pngSize = 28797;
 
     extern const char*   reverbBackground_png;
-    const int            reverbBackground_pngSize = 65490;
+    const int            reverbBackground_pngSize = 44860;
 
     extern const char*   background_png2;
     const int            background_png2Size = 65490;

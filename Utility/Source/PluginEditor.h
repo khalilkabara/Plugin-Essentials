@@ -99,15 +99,15 @@ private:
 	TextButton savePresetButton;
 	TextButton aboutButton;
 
-	const int pluginWidth = 300;
-	const int pluginHeight = 80;
+	const int pluginWidth = 320;
+	const int pluginHeight = 100;
 	const int border = 10;
 	const int margin = 5;
 	const int headerHeight = 20;
 	const int labelHeight = 15;
 	const int aboutButtonWidth = 40;
 
-	const String aboutText = { "Utility plugin \nBy Worq Studios \nwww.worq.com.ng" };
+	const String aboutText = { "Utility" };
 
 	int remainingHeight{ 0 };
 

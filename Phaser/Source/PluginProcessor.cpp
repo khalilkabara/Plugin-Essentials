@@ -29,7 +29,7 @@ PhaserAudioProcessor::PhaserAudioProcessor() :
 	, paramMinFrequency(parameters, "frequency", "Hz", 50.0f, 1000.0f, 80.0f)
 	, paramSweepWidth(parameters, "sweepWidth", "Hz", 50.0f, 3000.0f, 1000.0f)
 	, paramLFOfrequency(parameters, "lfoFrequency", "Hz", 0.0f, 2.0f, 0.05f)
-	, paramLFOwaveform(parameters, "lfoWaveform", waveformItemsUI, waveformSine)
+	, paramLFOwaveform(parameters, "lfoWave", waveformItemsUI, waveformSine)
 	, paramStereo(parameters, "enableStereo", true)
 {
 	parameters.valueTreeState.state = ValueTree(Identifier(getName().removeCharacters("- ")));
